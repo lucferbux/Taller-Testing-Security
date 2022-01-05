@@ -1,0 +1,1 @@
+mongo portfolio_db --eval "db.dropDatabase();"
