@@ -4,7 +4,7 @@
 
 ## Documentación
 
-Puedes encontrar la documentación de este proyecto en [este enlace](https://taller-threepoints-docs.netlify.app/docs/bbdd/intro).
+Puedes encontrar la documentación de este proyecto en [este enlace](https://taller-threepoints-docs.netlify.app/docs/testing/intro).
 
 ## Prototipo
 
