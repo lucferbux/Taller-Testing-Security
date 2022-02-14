@@ -23,7 +23,6 @@ const Dashboard = () => {
   const [error, setError] = useState<string | undefined>(undefined);
   
   const { addNotification, removeLastNotification } = useApp();
-  // TODO: 4) Llama al hook useProject
   const { setProjectOrUndefined } = useProject();
   const history = useHistory();
 
@@ -57,9 +56,6 @@ const Dashboard = () => {
     retrieveInfo();
   }, [setResponse, t, addNotification, removeLastNotification]);
 
-  // TODO: 4) Crea la función deleteProject
-  // HINT: el primer argumento debería ser element: React.MouseEvent<HTMLElement> para así llara a element.preventDefault() y element.stopPropagation()
-  // HINT: Además de eliminar el proyecto, hay que refrescar la interfaz de React
   async function deleteProject(element: React.MouseEvent<HTMLElement>, id: string) {
     element.preventDefault()
     element.stopPropagation()
@@ -74,9 +70,6 @@ const Dashboard = () => {
     }
   }   
 
-  // TODO: 4) Crea la función deleteProject
-  // HINT: el primer argumento debería ser element: React.MouseEvent<HTMLElement> para así llara a element.preventDefault() y element.stopPropagation()
-  // HINT: Además de añadir el proyecto al contexto, habrá que navegar a /admin de forma programática
   function updateProject(element: React.MouseEvent<HTMLElement>, project: Project) {
     element.preventDefault()
     element.stopPropagation()

@@ -9,6 +9,8 @@ import { HttpError } from '@/config/error';
 import { sendHttpErrorModule } from '@/config/error/sendHttpError';
 import Logger from '@/utils/Logger';
 
+// TODO: 7) Añadir el rate limit
+
 /**
  * @export
  * @param {express.Application} app

@@ -20,17 +20,14 @@ const Admin = () => {
   const [sucessMsg, setSuccessMsg] = useState("");
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | undefined>(undefined);
   const { addNotification, removeLastNotification } = useApp();
-  // TODO: 5) Call the useProject() hook
   const { project, setProjectOrUndefined } = useProject();
   
   useEffect(() => {
-    // TODO: 5) Check if there's a project in context and fill the form (you can create a function for that)
     if (project) {
       fillUpForm(project);
     }
 
     return () => {
-      // TODO: 5) Clean up the project context when the component is unmounted
       setProjectOrUndefined(undefined);
       if (timeoutId) {
         clearTimeout(timeoutId);
@@ -47,7 +44,6 @@ const Admin = () => {
     }
     const api = createApiClient();
     try {
-      // TODO: 5) Modify the project creation adding the _id and timestamp if it's an update
       const projectCreation: Project = {
         _id: project ? project._id : undefined,
         title: title,
@@ -58,7 +54,6 @@ const Admin = () => {
         timestamp: project ? project.date : Date.now(),
       };
       addNotification("Posting...");
-      // TODO: 5) call update if it's an update or post if its a creation
       if (project) {
         await api.updateProject(projectCreation);
         setSuccessMsg(t("admin.suc_network_update"));
@@ -70,7 +65,6 @@ const Admin = () => {
       setErrorMsg(t("admin.err_network"));
     } finally {
       removeLastNotification();
-      // TODO: 5) Clean up the project context 
       setProjectOrUndefined(undefined);
       const timeout = setTimeout(() => {
         resetMessages();
@@ -80,7 +74,6 @@ const Admin = () => {
     }
   }
 
-  // TODO: 5) Create a function to fill the form
   function fillUpForm(project: Project) {
     setErrorMsg("");
     setSuccessMsg("");

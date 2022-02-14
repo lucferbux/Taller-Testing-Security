@@ -55,12 +55,15 @@ const handleResponse = async <T>(func: () => Promise<T>): Promise<T> => {
     return await func();
   } catch (e) {
     if (e instanceof Unauthorized) {
+      // TODO: 4) Refactor auth calls
       removeAuthToken();
       window.location.replace("/");
     }
     throw e;
   }
 };
+
+// TODO: 5) Remove authorization header from all requests
 
 const getAuthorizationHeader = () => {
   const accessToken = getAccessToken();
@@ -93,6 +96,7 @@ export default class HttpApiClient implements ApiClient {
     return response.json();
   }
 
+  // TODO: 5) Add logout to api call
 
   getAboutMe = (): Promise<AboutMe> =>
     handleResponse(async () => {
@@ -144,7 +148,6 @@ export default class HttpApiClient implements ApiClient {
       return response.json();
     }
 
-    // TODO: 2) Add updateProject using PUT method
     async updateProject(project: Project): Promise<ProjectResponse> {
       const response = await fetch(this.baseUrl + "/v1/projects", {
         method: "PUT",
@@ -161,7 +164,6 @@ export default class HttpApiClient implements ApiClient {
       return response.json();
     }
 
-    // TODO: 2) Add updateProject using DELETE method
     async deleteProject(projectId: string): Promise<ProjectResponse> {
       const response = await fetch(this.baseUrl + "/v1/projects", {
         method: "DELETE",

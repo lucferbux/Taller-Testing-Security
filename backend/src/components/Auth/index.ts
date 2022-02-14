@@ -52,6 +52,10 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
             expiresIn: '60m',
         });
 
+        // TODO: 1) Install cookie-parser
+        // TODO: 1) Change the res to accept a cookie httponly
+
+
         res.status(HttpStatus.OK)
             .header({
                 Authorization: token,
@@ -93,3 +97,5 @@ export async function user(req: RequestWithUser, res: Response, next: NextFuncti
             });
     }
 }
+
+// TODO: 3) Add /logout route

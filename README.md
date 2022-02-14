@@ -15,3 +15,7 @@ Además, como se enseñará en el propio proyecto, podemos ver el prototipo fina
 ## Setup
 
 Para poner en marcha el proyecto tenemos que seguir los pasos detallados en el [CONTRIBUTING.md](CONTRIBUTING.MD)
+
+// TODO: 2) Cambia el HTTP Proxy (https://create-react-app.dev/docs/proxying-api-requests-in-development/) dentro de package.json
+
+// TODO: 7) Instala express-rate-limit en el backend

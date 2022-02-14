@@ -23,10 +23,11 @@ export const menuData = [
 const Header = () => {
   const { t } = useTranslation();
 
+  // TODO: 7) Add the menu button with a logout action
+
   return (
     <Wrapper>
       <Link to={home.link}>
-        {/* TODO: Change title to logo */}
         <LinkButton>{t(home.title)}</LinkButton>
       </Link>
       <MenuWrapper count={menuData.length}>

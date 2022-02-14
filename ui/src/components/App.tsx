@@ -15,7 +15,6 @@ import Admin from "./routes/Admin";
 
 const App = () => {
   
-  // TODO: Change redirect to Dashboard
   return (
     <Router>
       <Layout>

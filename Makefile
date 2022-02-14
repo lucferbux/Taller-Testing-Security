@@ -2,6 +2,8 @@ USER  ?= user@gmail.com
 PASS  ?= patata
 MONGODB_ATLAS ?= mongodb+srv://<username>:<password>@<cluster>.mongodb.net
 
+# TODO: 8) Añadir un script para iniciar dev en https
+
 # Init Scripts
 .PHONY: dev-api
 dev-api:
@@ -55,3 +57,5 @@ install-backend:
 
 .PHONY: install-dependencies
 install-dependencies: install-ui install-backend
+
+# TODO: 9) Añadir scripts para npm audit en frontend y backend
