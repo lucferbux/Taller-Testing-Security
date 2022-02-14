@@ -9,10 +9,10 @@ import createApiClient from "../api/api-client-factory";
 import { User } from "../model/user";
 import {
   getCurrentUser,
-  isTokenActive,
+  isUserActive,
   setLogoutIfExpiredHandler,
   logout as logoutService,
-  setAuthToken,
+  setUserToken,
 } from "../utils/auth";
 
 const AuthContext = createContext<any>({
@@ -32,7 +32,7 @@ export function AuthProvider({ children }: Props) {
   }, []);
 
   useEffect(() => {
-    if (isTokenActive()) {
+    if (isUserActive()) {
       setLogoutIfExpiredHandler(setUser);
       loadUser();
     } else {
@@ -46,7 +46,7 @@ export function AuthProvider({ children }: Props) {
       const api = createApiClient();
       try {
         const result = await api.token(username, password);
-        setAuthToken(result.token);
+        setUserToken(result.token);
         setLogoutIfExpiredHandler(setUser);
         loadUser();
       } catch (apiError) {

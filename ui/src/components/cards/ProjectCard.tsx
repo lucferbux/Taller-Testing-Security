@@ -12,8 +12,7 @@ import {
 } from "../../styles/TextStyles";
 import codeIcon from "./code.svg";
 
-// TODO: 3) Add new propws, one for the closeButton and other for the updateButton
-// TODO: 3) HINT: for the first argument, pass element: React.MouseEvent<HTMLElement> to then call element.preventDefault(); and element.stopPropagation();
+
 interface ProjectCardProps {
   project: Project;
   closeButton: (element: React.MouseEvent<HTMLElement>, id: string) => void;
@@ -28,10 +27,8 @@ const ProjectCard = (props: ProjectCardProps) => {
   const { project } = props;
   const { user } = useAuth();
 
-  // TODO: 3) Add toggle hook
   const [isVisible, toggle] = useToggle(false);
 
-  // TODO: 3) Add function to toggle menu adding element.preventDefault(); and element.stopPropagation();
   const toggleMenu = (element: React.MouseEvent<HTMLElement>) => {
     element.preventDefault();
     element.stopPropagation();
@@ -45,14 +42,6 @@ const ProjectCard = (props: ProjectCardProps) => {
           <CardVersion>
             <CardVersionText>{project.version}</CardVersionText>
           </CardVersion>
-          {/* TODO: 3) Add Kebab Button only when user is autenticated  */}
-          {/* TODO: 3) HINT: To Add 3 dots just do the following
-            <KebabButton [whatever you need here]>
-              <KebabDot />
-              <KebabDot />
-              <KebabDot />
-            </KebabButton>      
-          */}
           {user && (
             <KebabButton
               onClick={(e: React.MouseEvent<HTMLElement>) => toggleMenu(e)}
@@ -63,7 +52,6 @@ const ProjectCard = (props: ProjectCardProps) => {
             </KebabButton>
           )}
         </CardInfo>
-        {/* TODO: 3) Add Menu only when user is autenticated and menu is toggled (menu is outside CardInfo) */}
         {user && isVisible && (
           <>
             <MenuDropDownOverlay onClick={toggleMenu} />

@@ -24,11 +24,13 @@ interface RequestWithUser extends Request {
  *       bearerFormat: JWT
  */
 export function isAuthenticated(req: RequestWithUser, res: Response, next: NextFunction): void {
-    const token: any = req.headers.authorization;
+    // TODO: 3) Get the token from the cookie and modify Bearer prerfix
 
-    if (token && token.indexOf('Bearer ') !== -1) {
+    const token: any = req.cookies.token;
+
+    if (token) {
         try {
-            const user: object | string = jwt.verify(token.split('Bearer ')[1], app.get('secret'));
+            const user: object | string = jwt.verify(token, app.get('secret'));
 
             req.user = user;
 

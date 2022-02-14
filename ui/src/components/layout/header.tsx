@@ -26,7 +26,6 @@ const Header = () => {
   return (
     <Wrapper>
       <Link to={home.link}>
-        {/* TODO: Change title to logo */}
         <LinkButton>{t(home.title)}</LinkButton>
       </Link>
       <MenuWrapper count={menuData.length}>
