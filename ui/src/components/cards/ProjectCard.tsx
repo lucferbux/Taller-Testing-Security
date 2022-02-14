@@ -30,7 +30,11 @@ const ProjectCard = (props: ProjectCardProps) => {
 
   const [isVisible, toggle] = useToggle(false);
 
-  
+  // TODO: 6) Move de logic of the menu to a new component
+  // 1. Create a new component called MenuButton
+  // 2. Define the props of the component
+  // 3. Move away all the subcomponents and logic to the new component
+  // 4. Import the component here
 
   return (
     <Wrapper href={project.link} target="_blank" rel="noopener">

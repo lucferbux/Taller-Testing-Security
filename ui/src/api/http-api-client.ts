@@ -87,7 +87,7 @@ export default class HttpApiClient implements ApiClient {
     return response.json();
   }
   
-  // TODO: 6) Add logout to api call
+  // TODO: 5) Add logout to api call
 
   async logout(): Promise<ProjectResponse> {
     const response = await fetch(this.baseUrl + "/auth/logout", {

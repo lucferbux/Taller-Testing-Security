@@ -27,6 +27,8 @@ const Header = () => {
   const { t } = useTranslation();
   const { user, logout } = useAuth();
 
+  // TODO: 7) Add the menu button with a logout action
+
   const [isVisible, toggle] = useToggle(false);
 
   return (
