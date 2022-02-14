@@ -7,6 +7,7 @@ interface MenuButtonProps {
   actions: Array<MenuAction>;
   xAxis?: number;
   yAxis?: number;
+  dotButtonColorLight?: Boolean;
 }
 
 export interface MenuAction {
@@ -27,9 +28,9 @@ export function MenuButton(props: MenuButtonProps) {
       <KebabButton
         onClick={(e: React.MouseEvent<HTMLElement>) => toggleMenu(e)}
       >
-        <KebabDot />
-        <KebabDot />
-        <KebabDot />
+        <KebabDot dotButtonColorLight={props.dotButtonColorLight} />
+        <KebabDot dotButtonColorLight={props.dotButtonColorLight} />
+        <KebabDot dotButtonColorLight={props.dotButtonColorLight} />
       </KebabButton>
       {props.isVisible && (
         <>
@@ -59,11 +60,15 @@ const KebabButton = styled.button`
   cursor: pointer;
 `;
 
-const KebabDot = styled.div`
+interface KebabDotProps {
+  dotButtonColorLight?: Boolean;
+}
+
+const KebabDot = styled.div<KebabDotProps>`
   width: 4px;
   height: 4px;
   border-radius: 2px;
-  background: ${themes.light.text1};
+  background: ${(props) => (props.dotButtonColorLight ? themes.dark.text1 : themes.light.text1)};
   margin: 2px 0;
 
   @media (prefers-color-scheme: dark) {

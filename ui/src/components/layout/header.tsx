@@ -60,6 +60,7 @@ const Header = () => {
             ]}
             xAxis={30}
             yAxis={46}
+            dotButtonColorLight={true}
           />
         )}
       </LogoutWrapper>
