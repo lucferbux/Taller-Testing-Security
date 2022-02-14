@@ -1,6 +1,5 @@
 import { AuthComponent } from '@/components';
 import { Router } from 'express';
-import * as jwtConfig from '@/config/middleware/jwtAuth';
 
 /**
  * @constant {express.Router}
@@ -11,7 +10,7 @@ router.post('/login', AuthComponent.login);
 
 // TODO: 3) Add /logout route
 
-router.post('/logout', jwtConfig.isAuthenticated, AuthComponent.logout)
+router.post('/logout', AuthComponent.logout)
 
 /**
  * @export {express.Router}

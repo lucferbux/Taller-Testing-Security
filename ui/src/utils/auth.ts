@@ -64,7 +64,7 @@ async function logout() {
     removeUser();
     clearTimeout(logoutIfExpiredHandlerId);
   } catch (error) {
-    throw Error("Error while logging out");
+    console.log("Error while logging out");
   }
 }
 

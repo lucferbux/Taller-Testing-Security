@@ -53,8 +53,12 @@ const Header = () => {
                 title: "Logout",
                 isWarning: true,
                 action: (e: React.MouseEvent<HTMLElement>) => {
-                  logout();
-                  toggle();
+                  try{
+                    logout();
+                    toggle();
+                  } catch(e) {
+                    console.log("Error logging out");
+                  }  
                 },
               },
             ]}
