@@ -2,6 +2,8 @@ USER  ?= user@gmail.com
 PASS  ?= patata
 MONGODB_ATLAS ?= mongodb+srv://<username>:<password>@<cluster>.mongodb.net
 
+# TODO: 8) Añadir un script para iniciar dev en https
+
 # Init Scripts
 .PHONY: dev-api
 dev-api:
@@ -10,6 +12,10 @@ dev-api:
 .PHONY: dev-ui
 dev-ui:
 	cd ui && npm run start
+
+.PHONY: dev-ui-secure
+dev-ui-secure:
+	cd ui && npm run start-secure
 
 .PHONY: dev-start
 dev-start: 

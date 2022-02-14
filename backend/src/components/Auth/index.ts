@@ -65,12 +65,16 @@ export async function login(
     // TODO: 1) Install cookie-parser
     // TODO: 1) Change the res to accept a cookie httponly
 
-    res.cookie("token", token, { expires: new Date(Date.now() + 60 * 60 * 1000), httpOnly: true, secure: true });
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 60 * 60 * 1000),
+      httpOnly: true,
+      secure: true,
+      sameSite: true,
+    });
 
     res.status(HttpStatus.OK).send({
       token: token,
     });
-
   } catch (error) {
     if (error.code === 500) {
       return next(new HttpError(error.message.status, error.message));
@@ -96,16 +100,16 @@ export async function logout(
   next: NextFunction
 ): Promise<void> {
   try {
-
     res.cookie("token", "none", {
       expires: new Date(Date.now() + 5 * 1000),
       httpOnly: true,
+      secure: true,
+      sameSite: true,
     });
 
     res.status(HttpStatus.OK).send({
       message: "User logged out successfully",
     });
-
   } catch (error) {
     if (error.code === 500) {
       return next(new HttpError(error.message.status, error.message));
