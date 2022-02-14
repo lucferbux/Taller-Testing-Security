@@ -10,6 +10,7 @@ import {
   SmallText,
   SmallText2,
 } from "../../styles/TextStyles";
+import { MenuButton } from "../elements/MenuButton";
 import codeIcon from "./code.svg";
 
 
@@ -29,11 +30,7 @@ const ProjectCard = (props: ProjectCardProps) => {
 
   const [isVisible, toggle] = useToggle(false);
 
-  const toggleMenu = (element: React.MouseEvent<HTMLElement>) => {
-    element.preventDefault();
-    element.stopPropagation();
-    toggle();
-  };
+  
 
   return (
     <Wrapper href={project.link} target="_blank" rel="noopener">
@@ -43,39 +40,21 @@ const ProjectCard = (props: ProjectCardProps) => {
             <CardVersionText>{project.version}</CardVersionText>
           </CardVersion>
           {user && (
-            <KebabButton
-              onClick={(e: React.MouseEvent<HTMLElement>) => toggleMenu(e)}
-            >
-              <KebabDot />
-              <KebabDot />
-              <KebabDot />
-            </KebabButton>
-          )}
-        </CardInfo>
-        {user && isVisible && (
-          <>
-            <MenuDropDownOverlay onClick={toggleMenu} />
-            <MenuDropDown>
-              <MenuDropDownItem
-                isWarning={false}
-                onClick={(e: React.MouseEvent<HTMLElement>) =>
-                  props.updateButton(e, project)
-                }
-              >
-                Update
-              </MenuDropDownItem>
-              <MenuDropDownItem
-                isWarning={true}
-                onClick={(e: React.MouseEvent<HTMLElement>) => {
+            <MenuButton
+              isVisible={isVisible}
+              toggle={toggle}
+              actions={
+                [{ title: "Update", isWarning: false, action: (e: React.MouseEvent<HTMLElement>) => {
+                  props.updateButton(e, project);
+                }},
+                { title: "Delete", isWarning: true, action: (e: React.MouseEvent<HTMLElement>) => {
                   props.closeButton(e, project._id ?? "");
                   toggle();
-                }}
-              >
-                Delete
-              </MenuDropDownItem>
-            </MenuDropDown>
-          </>
-        )}
+                }}]
+              }
+            />
+          )}
+        </CardInfo>
         <CardCaption data-testid="caption">
           {props.captionText ? props.captionText : ""}
         </CardCaption>
@@ -97,69 +76,7 @@ export default ProjectCard;
 
 const CardCaption = styled(SmallText2)``;
 
-const KebabButton = styled.button`
-  border: none;
-  background: none;
-  margin-left: 10px;
-  cursor: pointer;
-`;
 
-const KebabDot = styled.div`
-  width: 4px;
-  height: 4px;
-  border-radius: 2px;
-  background: ${themes.light.text1};
-  margin: 2px 0;
-
-  @media (prefers-color-scheme: dark) {
-    background: ${themes.dark.text1};
-  }
-`;
-
-const MenuDropDown = styled.div`
-  position: absolute;
-  right: 26px;
-  top: 46px;
-
-  border-radius: 2px;
-  background-color: ${themes.light.card.backgroundColorFull};
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  z-index: 2;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: ${themes.dark.card.backgroundColorFull};
-  }
-`;
-
-const MenuDropDownOverlay = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  opacity: 0;
-`;
-
-interface MenuDropDownItemProps {
-  isWarning: Boolean;
-}
-
-const MenuDropDownItem = styled.button<MenuDropDownItemProps>`
-  height: 26px;
-  width: 100px;
-  border: none;
-  background: none;
-  margin: 6px 0px;
-  cursor: pointer;
-  color: ${(props) =>
-    props.isWarning ? themes.light.warning : themes.light.text1};
-
-  @media (prefers-color-scheme: dark) {
-    color: ${(props) =>
-      props.isWarning ? themes.light.warning : themes.dark.text1};
-  }
-`;
 
 const CardInfo = styled.div`
   position: absolute;

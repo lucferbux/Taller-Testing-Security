@@ -36,8 +36,12 @@ export function AuthProvider({ children }: Props) {
       setLogoutIfExpiredHandler(setUser);
       loadUser();
     } else {
-      logoutService();
-      setUser(undefined);
+      try {
+        logoutService();
+        setUser(undefined);
+      } catch (e) {
+        console.log(e);
+      }
     }
   }, [loadUser]);
 
@@ -57,8 +61,12 @@ export function AuthProvider({ children }: Props) {
   );
 
   const logout = useCallback(() => {
-    logoutService();
-    setUser(undefined);
+    try {
+      logoutService();
+      setUser(undefined);
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   return (

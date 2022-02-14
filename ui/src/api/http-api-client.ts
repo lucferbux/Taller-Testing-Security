@@ -167,7 +167,6 @@ export default class HttpApiClient implements ApiClient {
         },
         body: JSON.stringify({id: projectId}),
       });
-      console.log(response);
       if (!response.ok) {
         throw await createApiError(response);
       }

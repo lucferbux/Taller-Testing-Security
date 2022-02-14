@@ -38,7 +38,7 @@ export function setLogoutIfExpiredHandler(
   }
 
   logoutIfExpiredHandlerId = setTimeout(
-    () => setUser(undefined),
+    () => logout(),
     token.expirationTimestampInMillis - Date.now()
   );
 }
@@ -64,7 +64,7 @@ async function logout() {
     removeUser();
     clearTimeout(logoutIfExpiredHandlerId);
   } catch (error) {
-    console.log("Error in logout")
+    throw Error("Error while logging out");
   }
 }
 

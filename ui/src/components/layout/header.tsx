@@ -2,7 +2,10 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import useAuth from "../../hooks/useAuth";
+import useToggle from "../../hooks/useToogle";
 import { themes } from "../../styles/ColorStyles";
+import { MenuButton } from "../elements/MenuButton";
 
 export const home = {
   title: "nav.home",
@@ -22,19 +25,42 @@ export const menuData = [
 
 const Header = () => {
   const { t } = useTranslation();
+  const { user, logout } = useAuth();
+
+  const [isVisible, toggle] = useToggle(false);
 
   return (
     <Wrapper>
       <Link to={home.link}>
         <LinkButton>{t(home.title)}</LinkButton>
       </Link>
-      <MenuWrapper count={menuData.length}>
-        {menuData.map((item, index) => (
-          <Link to={item.link} key={index}>
-            <LinkButton>{t(item.title)}</LinkButton>
-          </Link>
-        ))}
-      </MenuWrapper>
+      <LogoutWrapper>
+        <MenuWrapper count={menuData.length}>
+          {menuData.map((item, index) => (
+            <Link to={item.link} key={index}>
+              <LinkButton>{t(item.title)}</LinkButton>
+            </Link>
+          ))}
+        </MenuWrapper>
+        {user && (
+          <MenuButton
+            isVisible={isVisible}
+            toggle={toggle}
+            actions={[
+              {
+                title: "Logout",
+                isWarning: true,
+                action: (e: React.MouseEvent<HTMLElement>) => {
+                  logout();
+                  toggle();
+                },
+              },
+            ]}
+            xAxis={30}
+            yAxis={46}
+          />
+        )}
+      </LogoutWrapper>
     </Wrapper>
   );
 };
@@ -71,6 +97,13 @@ const MenuWrapper = styled.div<MenuWrapperProps>`
   display: grid;
   grid-template-columns: repeat(${(props) => props.count}, auto);
   gap: 30px;
+`;
+
+const LogoutWrapper = styled.div`
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 4px;
+  align-items: center;
 `;
 
 // const Logo = styled.img`
