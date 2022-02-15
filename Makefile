@@ -76,3 +76,9 @@ audit-frontend:
 .PHONY: audit-backend
 audit-backend:
 	cd backend && npm audit
+
+# Testing
+
+.PHONY: story-book
+story-book:
+	cd ui && npm run storybook

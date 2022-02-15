@@ -19,3 +19,11 @@ Para poner en marcha el proyecto tenemos que seguir los pasos detallados en el [
 // TODO: 2) Cambia el HTTP Proxy (https://create-react-app.dev/docs/proxying-api-requests-in-development/) dentro de package.json
 
 // TODO: 7) Instala express-rate-limit en el backend
+
+// TODO: 11) Instala storybook en ui
+
+// TODO: 11) Instala storybook-react-i18next
+
+// TODO: 11) Añade storybook-react-i18next a main.js
+
+// TODO: 11) Crear i18next.js y preview.js dentro de .storybook
