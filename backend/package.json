@@ -15,6 +15,7 @@
     "dev": "nodemon",
     "build": "tsc",
     "postinstall": "npm run build",
+    "test": "NODE_ENV=test mocha -r ts-node/register test/index.js -vv --exit",
     "lint": "tslint -p tsconfig.json --fix"
   },
   "files": [
