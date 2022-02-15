@@ -11,6 +11,7 @@ import { MediumText } from "../../styles/TextStyles";
 import createApiClient from "../../api/api-client-factory";
 import useProject from "../../hooks/useProject";
 import { useHistory } from "react-router";
+import useAuth from "../../hooks/useAuth";
 
 interface Response {
   aboutme?: AboutMe;
@@ -21,6 +22,8 @@ const Dashboard = () => {
   const { t } = useTranslation();
   const [response, setResponse] = useState<Response | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
+
+  const { user } = useAuth();
   
   const { addNotification, removeLastNotification } = useApp();
 
@@ -88,7 +91,7 @@ const Dashboard = () => {
             </AboutMeWrapper>
             <ProjectWrapper>
               {response?.projects?.map((project, index) => (
-                <ProjectCard project={project} key={index} closeButton={(e, id) => deleteProject(e, id)} updateButton={(e, id) => updateProject(e, id)} />
+                <ProjectCard project={project} key={index} user={user} closeButton={(e, id) => deleteProject(e, id)} updateButton={(e, id) => updateProject(e, id)} />
               ))}
             </ProjectWrapper>
           </ResponseWrapper>

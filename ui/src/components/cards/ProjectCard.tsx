@@ -3,6 +3,7 @@ import styled from "styled-components";
 import useAuth from "../../hooks/useAuth";
 import useToggle from "../../hooks/useToogle";
 import { Project } from "../../model/project";
+import { User } from "../../model/user";
 import { themes } from "../../styles/ColorStyles";
 import {
   H3,
@@ -13,9 +14,13 @@ import {
 import { MenuButton } from "../elements/MenuButton";
 import codeIcon from "./code.svg";
 
+// TODO: 10) Añadir testing para ProjectCard
+
+// TODO: 11) Crear storybook para Project Card
 
 interface ProjectCardProps {
   project: Project;
+  user: User | undefined;
   closeButton: (element: React.MouseEvent<HTMLElement>, id: string) => void;
   updateButton: (
     element: React.MouseEvent<HTMLElement>,
@@ -26,7 +31,8 @@ interface ProjectCardProps {
 
 const ProjectCard = (props: ProjectCardProps) => {
   const { project } = props;
-  const { user } = useAuth();
+
+  // TODO: 9) Change useAuth to props
 
   const [isVisible, toggle] = useToggle(false);
 
@@ -43,19 +49,27 @@ const ProjectCard = (props: ProjectCardProps) => {
           <CardVersion>
             <CardVersionText>{project.version}</CardVersionText>
           </CardVersion>
-          {user && (
+          {props.user && (
             <MenuButton
               isVisible={isVisible}
               toggle={toggle}
-              actions={
-                [{ title: "Update", isWarning: false, action: (e: React.MouseEvent<HTMLElement>) => {
-                  props.updateButton(e, project);
-                }},
-                { title: "Delete", isWarning: true, action: (e: React.MouseEvent<HTMLElement>) => {
-                  props.closeButton(e, project._id ?? "");
-                  toggle();
-                }}]
-              }
+              actions={[
+                {
+                  title: "Update",
+                  isWarning: false,
+                  action: (e: React.MouseEvent<HTMLElement>) => {
+                    props.updateButton(e, project);
+                  },
+                },
+                {
+                  title: "Delete",
+                  isWarning: true,
+                  action: (e: React.MouseEvent<HTMLElement>) => {
+                    props.closeButton(e, project._id ?? "");
+                    toggle();
+                  },
+                },
+              ]}
             />
           )}
         </CardInfo>
@@ -79,8 +93,6 @@ const ProjectCard = (props: ProjectCardProps) => {
 export default ProjectCard;
 
 const CardCaption = styled(SmallText2)``;
-
-
 
 const CardInfo = styled.div`
   position: absolute;

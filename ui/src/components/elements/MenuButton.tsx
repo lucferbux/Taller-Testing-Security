@@ -25,7 +25,7 @@ export function MenuButton(props: MenuButtonProps) {
 
   return (
     <>
-      <KebabButton
+      <KebabButton data-testid="menuButton"
         onClick={(e: React.MouseEvent<HTMLElement>) => toggleMenu(e)}
       >
         <KebabDot dotButtonColorLight={props.dotButtonColorLight} />

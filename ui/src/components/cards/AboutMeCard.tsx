@@ -7,6 +7,8 @@ import AboutMeCardRow from "./AboutMeCardRow";
 
 import avatarCard from "./Avatar.jpg";
 
+// TODO: 11) Crear storybook para AboutMe Card
+
 interface AboutMeCardProps {
   aboutMe: AboutMe;
 }
