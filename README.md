@@ -27,3 +27,5 @@ Para poner en marcha el proyecto tenemos que seguir los pasos detallados en el [
 // TODO: 11) Añade storybook-react-i18next a main.js
 
 // TODO: 11) Crear i18next.js y preview.js dentro de .storybook
+
+// TODO: X) Create a signed commit
