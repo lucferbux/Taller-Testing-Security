@@ -17,9 +17,9 @@ describe('Authentication', () => {
         request(app)
             .post('/auth/login')
             .type('form')
-            .field({
-                email: 'lucasfernandezaragon@gmail.com',
-                password: 'patata',
+            .send({
+                email: "lucasfernandezaragon@gmail.com",
+                password: "patata"
             })
             .expect((res) => {
                 res.status.should.equal(200);

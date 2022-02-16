@@ -11,7 +11,6 @@ describe('API', () => {
     it('get all users', (done) => {
         request(app)
             .get('/v1/users')
-            .set('Authorization', global.bearerToken)
             .expect((res) => {
                 res.status.should.equal(200);
                 res.body.should.be.an('array');
