@@ -18,7 +18,7 @@ const AboutMeCard = (props: AboutMeCardProps) => {
 
   return (
     <Wrapper>
-      <ImageWrapper src={avatarCard} />
+      <ImageWrapper src={avatarCard}  data-testid="aboutImg" />
       <InfoWrapper>
         <InfoSection>
           <AboutMeCardRow
