@@ -8,6 +8,7 @@ import AboutMeCardRow from "./AboutMeCardRow";
 import avatarCard from "./Avatar.jpg";
 
 // TODO: 11) Crear storybook para AboutMe Card
+// TODO: 12) Crear tests de integración con testing-library/react para AboutMeCard
 
 interface AboutMeCardProps {
   aboutMe: AboutMe;

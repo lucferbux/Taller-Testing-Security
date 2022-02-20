@@ -17,6 +17,7 @@ import codeIcon from "./code.svg";
 // TODO: 10) Añadir testing para ProjectCard
 
 // TODO: 11) Crear storybook para Project Card
+// TODO: 12) Crear tests de integración con testing-library/react para ProjectCard
 
 interface ProjectCardProps {
   project: Project;
