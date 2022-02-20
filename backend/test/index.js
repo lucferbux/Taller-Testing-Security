@@ -3,5 +3,7 @@ alias.addAliases({
     '@': __dirname + '/../src'
 });
 
-require('./authentication');
-require('./api');
+require('./setup');
+require('./authIntegration');
+require('./aboutMeIntegration');
+require('./projectIntegration');
