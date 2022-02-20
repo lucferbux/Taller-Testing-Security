@@ -23,7 +23,7 @@ export const menuData = [
 const Header = () => {
   const { t } = useTranslation();
 
-  // TODO: 7) Add the menu button with a logout action
+  // TODO: 6) Add the menu button with a logout action
 
   return (
     <Wrapper>
