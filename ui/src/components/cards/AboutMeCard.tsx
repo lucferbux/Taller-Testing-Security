@@ -11,6 +11,9 @@ interface AboutMeCardProps {
   aboutMe: AboutMe;
 }
 
+// TODO: 11) Crear storybook para AboutMe Card
+// TODO: 12) Crear tests de integración con testing-library/react para AboutMeCard
+
 const AboutMeCard = (props: AboutMeCardProps) => {
   const { t } = useTranslation();
 

@@ -22,6 +22,10 @@ interface ProjectCardProps {
   captionText?: string;
 }
 
+// TODO: 11) Crear storybook para Project Card
+// TODO: 12) Crear tests de integración con testing-library/react para ProjectCard
+
+
 const ProjectCard = (props: ProjectCardProps) => {
   const { project } = props;
   const { user } = useAuth();
