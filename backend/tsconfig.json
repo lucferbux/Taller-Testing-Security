@@ -8,11 +8,9 @@
         "resolveJsonModule": true,
         "target": "es6",
         "sourceMap": true,
-        "plugins": [
-            {
-                "name": "tslint-language-service"
-            }
-        ],
+        "plugins": [{
+            "name": "tslint-language-service"
+        }],
         "paths": {
             "@/*": [
                 "src/*"
@@ -20,7 +18,7 @@
         }
     },
     "include": [
-        "./src/**/*"
+        "./src/**/*", "test"
     ],
     "exclude": [
         "node_modules"

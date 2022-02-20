@@ -1,0 +1,26 @@
+[
+    {
+        "title": "React",
+        "description": "React es el Framework web basado en componentes de Facebook. Cuenta con una curva de aprendizaje corta y mucha flexibilidad",
+        "version": "17.0.1",
+        "link": "https://reactjs.org/docs/hello-world.html",
+        "tag": "JavaScript, Typescript, React",
+        "timestamp": 765817712000
+    },
+    {
+        "title": "Create React App",
+        "description": "Toolchain para la creación de proyectos basados en React, contiene lo báisco para crear proyectos basados en single-page apps",
+        "version": "4.0.3",
+        "link": "https://create-react-app.dev",
+        "tag": "Toolchain, React, Bootstraping",
+        "timestamp": 765817712001
+    },
+    {
+        "title": "Styled components",
+        "description": "Librería que permite usar template literals y css para crear estilos en componente con JavaScript",
+        "version": "5.2.1",
+        "link": "https://styled-components.com/docs",
+        "tag": "CSS, JavaScript, Babel",
+        "timestamp": 765817712002
+    }
+]
