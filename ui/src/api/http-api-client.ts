@@ -77,7 +77,7 @@ export default class HttpApiClient implements ApiClient {
       email: email,
       password: password
     })
-    const response = await fetch(this.baseUrl + "/auth/login", {
+    const response = await fetch(this.baseUrl + "/auth/login/", {
       method: "POST",
       body: body,
     });
@@ -90,7 +90,7 @@ export default class HttpApiClient implements ApiClient {
   // TODO: 5) Add logout to api call
 
   async logout(): Promise<ProjectResponse> {
-    const response = await fetch(this.baseUrl + "/auth/logout", {
+    const response = await fetch(this.baseUrl + "/auth/logout/", {
       method: "POST",
     });
     if (!response.ok) {
@@ -129,7 +129,7 @@ export default class HttpApiClient implements ApiClient {
     });
 
     async postProject(project: Project): Promise<ProjectResponse> {
-      const response = await fetch(this.baseUrl + "/v1/projects", {
+      const response = await fetch(this.baseUrl + "/v1/projects/", {
         method: "POST",
         headers: {
           'Accept': 'application/json',
@@ -144,7 +144,7 @@ export default class HttpApiClient implements ApiClient {
     }
 
     async updateProject(project: Project): Promise<ProjectResponse> {
-      const response = await fetch(this.baseUrl + "/v1/projects", {
+      const response = await fetch(this.baseUrl + "/v1/projects/", {
         method: "PUT",
         headers: {
           'Accept': 'application/json',
@@ -159,7 +159,7 @@ export default class HttpApiClient implements ApiClient {
     }
 
     async deleteProject(projectId: string): Promise<ProjectResponse> {
-      const response = await fetch(this.baseUrl + "/v1/projects", {
+      const response = await fetch(this.baseUrl + "/v1/projects/", {
         method: "DELETE",
         headers: {
           'Accept': 'application/json',

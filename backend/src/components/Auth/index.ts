@@ -115,7 +115,7 @@ export async function logout(
       return next(new HttpError(error.message.status, error.message));
     }
     res.status(HttpStatus.BAD_REQUEST).send({
-      message: "Invalid Login",
+      message: "Invalid LogOut",
     });
   }
 }

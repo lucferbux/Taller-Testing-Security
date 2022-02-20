@@ -13,8 +13,8 @@ import { NextFunction, Request, Response } from 'express';
 export async function findAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         const aboutMeArray: IProjectsModel[] = await ProjectsService.findAll();
-
-        res.status(200).json(aboutMeArray);
+        const aboutMeArraySorted = aboutMeArray.sort((a, b) => (a.timestamp > b.timestamp) ? 1 : -1 );
+        res.status(200).json(aboutMeArraySorted);
     } catch (error) {
         next(new HttpError(error.message.status, error.message));
     }
@@ -84,7 +84,7 @@ export async function remove(req: Request, res: Response, next: NextFunction): P
     try {
         const aboutMe: IProjectsModel = await ProjectsService.remove(req.body.id);
 
-        res.status(200).json(aboutMe);
+        res.status(201).json(aboutMe);
     } catch (error) {
         next(new HttpError(error.message.status, error.message));
     }

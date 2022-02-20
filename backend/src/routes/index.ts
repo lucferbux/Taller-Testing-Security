@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as http from 'http';
-//import * as jwtConfig from '@/config/middleware/jwtAuth';
+import * as jwtConfig from '@/config/middleware/jwtAuth';
 import * as swaggerUi from 'swagger-ui-express';
 import AuthRouter from './AuthRouter';
 import UserRouter from './UserRouter';
@@ -36,7 +36,7 @@ export function init(app: express.Application): void {
      *  Also, check if user authenticated
      * @constructs
      */
-    app.use('/v1/users', UserRouter);
+    app.use('/v1/users', jwtConfig.isAuthenticated, UserRouter);
 
     /**
      * @description

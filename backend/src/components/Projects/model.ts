@@ -16,7 +16,6 @@ export interface IProjectsRequest {
  * @extends {Document}
  */
 export interface IProjectsModel extends Document {
-    id: string;
     title: string;
     description: string;
     version: string;
@@ -33,11 +32,6 @@ export type AuthToken = {
 
 const ProjectsSchema: Schema = new Schema(
     {
-        id: {
-            type: String,
-            unique: true,
-            trim: true,
-        },
         title: String,
         description: String,
         version: String,

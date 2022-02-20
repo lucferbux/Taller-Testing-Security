@@ -16,7 +16,6 @@ export interface IAboutMeRequest {
  * @extends {Document}
  */
 export interface IAboutMeModel extends Document {
-    id: string;
     name: string;
     birthday: number;
     nationality: string;
@@ -32,11 +31,6 @@ export type AuthToken = {
 
 const AboutMeSchema: Schema = new Schema(
     {
-        id: {
-            type: String,
-            unique: true,
-            trim: true,
-        },
         name: String,
         birthday: Number,
         nationality: String,
