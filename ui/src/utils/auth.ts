@@ -1,4 +1,5 @@
 import jwt_decode from "jwt-decode";
+import { Unauthorized } from "../api/api-client";
 import createApiClient from "../api/api-client-factory";
 import { userKey } from "../constants/config";
 import { User } from "../model/user";
@@ -11,7 +12,7 @@ interface UserToken {
 }
 
 interface JWTPayload {
-  _id: string;
+  id: string;
   email: string;
   iat: number;
   exp: number;
@@ -26,9 +27,7 @@ let logoutIfExpiredHandlerId: NodeJS.Timeout;
 // 2. Use a new User Local Storage with expiration time of JWT and User attributes
 // 3. Call backend to logout if expired
 
-export function setLogoutIfExpiredHandler(
-    setUser: (user: any) => void
-) {
+function setLogoutIfExpiredHandler() {
   if (!isUserActive()) {
     return;
   }
@@ -43,11 +42,10 @@ export function setLogoutIfExpiredHandler(
   );
 }
 
-export function setUserToken(accessToken: string) {
-   
+function setUserToken(accessToken: string) {
   const tokenPayload = getPayload(accessToken);
   const token: UserToken = {
-    id: tokenPayload._id,
+    id: tokenPayload.id,
     email: tokenPayload.email,
     notBeforeTimestampInMillis: tokenPayload.iat * 1000,
     expirationTimestampInMillis: tokenPayload.exp * 1000,
@@ -55,15 +53,31 @@ export function setUserToken(accessToken: string) {
   localStorage.setItem(userKey, JSON.stringify(token));
 }
 
+async function login(username: string, password: string) {
+  const api = createApiClient();
+  try {
+    const result = await api.token(username, password);
+    setUserToken(result.token);
+    setLogoutIfExpiredHandler();
+  } catch (apiError) {
+    if (apiError instanceof Unauthorized) {
+      throw new WrongCredentialsException();
+    } else {
+      throw new Error();
+    }
+  }
+}
+
 async function logout() {
   try {
-    if(isUserActive()){
-      const api = createApiClient();
-      await api.logout();
-    }
     removeUser();
     clearTimeout(logoutIfExpiredHandlerId);
+    if (isUserActive()) {
+      const api = createApiClient();
+      await api.logout();
+    }    
   } catch (error) {
+    console.log(error);
     console.log("Error while logging out");
   }
 }
@@ -72,7 +86,7 @@ function getPayload(token: string): JWTPayload {
   return jwt_decode(token);
 }
 
-export function removeUser() {
+function removeUser() {
   localStorage.removeItem(userKey);
 }
 
@@ -86,7 +100,7 @@ function getUserStorage(): UserToken | null {
   return null;
 }
 
-export function getCurrentUser(): User | undefined {
+function getCurrentUser(): User | undefined {
   const user = getUserStorage();
   if (user) {
     if (!isUserActive()) {
@@ -94,9 +108,9 @@ export function getCurrentUser(): User | undefined {
       return undefined;
     }
     return {
-      _id:  user.id,
+      id: user.id,
       active: true,
-      email: user.email
+      email: user.email,
     };
   } else {
     return undefined;
@@ -114,4 +128,13 @@ function isUserActive(): boolean {
   );
 }
 
-export { WrongCredentialsException, logout, isUserActive };
+export {
+  WrongCredentialsException,
+  login,
+  logout,
+  isUserActive,
+  getCurrentUser,
+  removeUser,
+  setUserToken,
+  setLogoutIfExpiredHandler,
+};

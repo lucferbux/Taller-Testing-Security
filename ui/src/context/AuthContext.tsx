@@ -5,14 +5,13 @@ import {
   useEffect,
   useState,
 } from "react";
-import createApiClient from "../api/api-client-factory";
 import { User } from "../model/user";
 import {
   getCurrentUser,
   isUserActive,
   setLogoutIfExpiredHandler,
+  login as loginService,
   logout as logoutService,
-  setUserToken,
 } from "../utils/auth";
 
 const AuthContext = createContext<any>({
@@ -33,7 +32,7 @@ export function AuthProvider({ children }: Props) {
 
   useEffect(() => {
     if (isUserActive()) {
-      setLogoutIfExpiredHandler(setUser);
+      setLogoutIfExpiredHandler();
       loadUser();
     } else {
       try {
@@ -47,17 +46,14 @@ export function AuthProvider({ children }: Props) {
 
   const login = useCallback(
     async (username: string, password: string) => {
-      const api = createApiClient();
       try {
-        const result = await api.token(username, password);
-        setUserToken(result.token);
-        setLogoutIfExpiredHandler(setUser);
+        await loginService(username, password);
         loadUser();
       } catch (apiError) {
         throw new Error();
       }
     },
-    [setUser, loadUser]
+    [loadUser]
   );
 
   const logout = useCallback(() => {

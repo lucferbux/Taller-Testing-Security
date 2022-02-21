@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import useAuth from "../../hooks/useAuth";
 import useToggle from "../../hooks/useToogle";
 import { Project } from "../../model/project";
 import { User } from "../../model/user";
