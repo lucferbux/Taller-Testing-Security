@@ -59,7 +59,6 @@ afterEach(async () => {
   jest.clearAllTimers();
   jest.resetAllMocks();
   localStorage.removeItem(USER_TOKEN);
-  await logout();
 });
 
 test("login happy case", async () => {
@@ -106,6 +105,7 @@ test("login failed - unauthorized", async () => {
   // Given
   const apiClient = <ApiClient>{};
   apiClient.token = jest.fn().mockRejectedValue(new Unauthorized());
+  apiClient.logout = jest.fn().mockResolvedValue("");
   mockedCreateApiClient.mockReturnValue(apiClient);
 
   // When
@@ -125,6 +125,7 @@ test("login failed - generic error", async () => {
   // Given
   const apiClient = <ApiClient>{};
   apiClient.token = jest.fn().mockRejectedValue(new GenericError(500, "err"));
+  apiClient.logout = jest.fn().mockResolvedValue("");
   mockedCreateApiClient.mockReturnValue(apiClient);
 
   // When
@@ -142,6 +143,9 @@ test("login failed - generic error", async () => {
 
 test("logout happy case", async () => {
   // Given
+  const apiClient = <ApiClient>{};
+  apiClient.logout = jest.fn().mockResolvedValue("");
+  mockedCreateApiClient.mockReturnValue(apiClient);
   setUserToken();
 
   // When

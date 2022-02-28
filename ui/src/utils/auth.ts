@@ -72,10 +72,8 @@ async function logout() {
   try {
     removeUser();
     clearTimeout(logoutIfExpiredHandlerId);
-    if (isUserActive()) {
-      const api = createApiClient();
-      await api.logout();
-    }    
+    const api = createApiClient();
+    await api.logout();
   } catch (error) {
     console.log(error);
     console.log("Error while logging out");
