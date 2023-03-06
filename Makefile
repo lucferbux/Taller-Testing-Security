@@ -7,11 +7,11 @@ MONGODB_ATLAS ?= mongodb+srv://<username>:<password>@<cluster>.mongodb.net
 # Init Scripts
 .PHONY: dev-api
 dev-api:
-	cd backend && npm run dev
+	cd api && npm run dev
 
 .PHONY: dev-ui
 dev-ui:
-	cd ui && npm run start
+	cd ui && npm run dev
 
 .PHONY: dev-start
 dev-start: 
@@ -53,7 +53,7 @@ install-ui:
 
 .PHONY: install-backend
 install-backend:
-	cd backend && npm install
+	cd api && npm install
 
 .PHONY: install-dependencies
 install-dependencies: install-ui install-backend

@@ -24,10 +24,7 @@ let logoutIfExpiredHandlerId: NodeJS.Timeout;
 // 2. Use a new User Local Storage with expiration time of JWT and User attributes
 // 3. Call backend to logout if expired
 
-
-export function setLogoutIfExpiredHandler(
-    setUser: (user: any) => void
-) {
+export function setLogoutIfExpiredHandler(setUser: (user: any) => void) {
   if (!isTokenActive()) {
     return;
   }
@@ -43,7 +40,6 @@ export function setLogoutIfExpiredHandler(
 }
 
 export function setAuthToken(accessToken: string) {
-   
   const tokenPayload = getPayload(accessToken);
   const token: Token = {
     accessToken: accessToken,
@@ -95,7 +91,7 @@ export function getCurrentUser(): User | undefined {
     return {
       _id: tokenPayload._id,
       active: true,
-      email: tokenPayload.email
+      email: tokenPayload.email,
     };
   } else {
     return undefined;

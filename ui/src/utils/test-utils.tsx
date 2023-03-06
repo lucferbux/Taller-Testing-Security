@@ -3,13 +3,10 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { render, RenderOptions } from "@testing-library/react";
 import { AuthProvider } from "../context/AuthContext";
 
-
-
-
 // eslint-disable-next-line react/prop-types,@typescript-eslint/no-explicit-any
 const AllTheProviders: FC<any> = ({ children }) => (
   <Router>
-        <AuthProvider>{children}</AuthProvider>
+    <AuthProvider>{children}</AuthProvider>
   </Router>
 );
 

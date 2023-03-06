@@ -17,15 +17,15 @@ Antes de ejecutar la apliación, es recomendable revisar las variables de entorn
 
 ```.env
 ********* ui/.env *********
-REACT_APP_LOCALE=es-ES
-REACT_APP_BASE_URI=
-REACT_APP_API_URI=http://localhost:4000
+VITE_LOCALE=es-ES
+VITE_BASE_URI=
+VITE_API_URI=http://localhost:4000
 SECRET=e89f987sdfs9d879f8798dsf78978
 ```
 
-* `REACT_APP_LOCALE` configura el idioma local del proyecto.
-* `REACT_APP_API_URI` configura la url a la que la API apuntará.
-* `REACT_APP_BASE_URI` configura un path extra para la uri si fuera necesario (si se configura con por ejemplo `/extra` la url final será `http://localhost:4000/extra/...`)
+* `VITE_LOCALE` configura el idioma local del proyecto.
+* `VITE_API_URI` configura la url a la que la API apuntará.
+* `VITE_BASE_URI` configura un path extra para la uri si fuera necesario (si se configura con por ejemplo `/extra` la url final será `http://localhost:4000/extra/...`)
 * `SECRET` configura el secreto del JWT (para verificación, actualmente no tiene uso)
 
 ```.env

@@ -18,10 +18,12 @@ const Admin = () => {
   const [version, setVersion] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [sucessMsg, setSuccessMsg] = useState("");
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | undefined>(undefined);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | undefined>(
+    undefined
+  );
   const { addNotification, removeLastNotification } = useApp();
   const { project, setProjectOrUndefined } = useProject();
-  
+
   useEffect(() => {
     if (project) {
       fillUpForm(project);
@@ -74,14 +76,14 @@ const Admin = () => {
     }
   }
 
-  function fillUpForm(project: Project) {
+  function fillUpForm(updateProject: Project) {
     setErrorMsg("");
     setSuccessMsg("");
-    setTitle(project.title);
-    setLink(project.link);
-    setDescription(project.description);
-    setTags(project.tag);
-    setVersion(project.version);
+    setTitle(updateProject.title);
+    setLink(updateProject.link);
+    setDescription(updateProject.description);
+    setTags(updateProject.tag);
+    setVersion(updateProject.version);
   }
 
   function resetMessages() {

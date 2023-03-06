@@ -25,7 +25,6 @@ interface ProjectCardProps {
 // TODO: 11) Crear storybook para Project Card
 // TODO: 12) Crear tests de integración con testing-library/react para ProjectCard
 
-
 const ProjectCard = (props: ProjectCardProps) => {
   const { project } = props;
   const { user } = useAuth();
@@ -151,7 +150,7 @@ const MenuDropDownOverlay = styled.div`
 `;
 
 interface MenuDropDownItemProps {
-  isWarning: Boolean;
+  isWarning: boolean;
 }
 
 const MenuDropDownItem = styled.button<MenuDropDownItemProps>`
