@@ -1,4 +1,4 @@
-import * as Joi from "@hapi/joi";
+import * as Joi from "joi";
 import Validation from "@/components/validation";
 import { IAboutMeModel } from "./model";
 

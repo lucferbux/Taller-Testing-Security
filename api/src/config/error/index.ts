@@ -1,4 +1,4 @@
-import * as http from 'http';
+import * as http from "http";
 
 /**
  * @export
@@ -6,25 +6,27 @@ import * as http from 'http';
  * @extends {Error}
  */
 export class HttpError extends Error {
-    status: number;
-    message: string;
-    name: 'HttpError';
+  status: number;
 
-    /**
-     * Creates an instance of HttpError.
-     * @param {number} [status]
-     * @param {string} [message]
-     * @memberof HttpError
-     */
-    constructor(status?: number, message?: string) {
-        super(message);
+  message: string;
 
-        Error.captureStackTrace(this, this.constructor);
+  name: "HttpError";
 
-        this.status = status || 500;
-        this.name = this.name;
-        this.message = message || http.STATUS_CODES[this.status] || 'Error';
-    }
+  /**
+   * Creates an instance of HttpError.
+   * @param {number} [status]
+   * @param {string} [message]
+   * @memberof HttpError
+   */
+  constructor(status?: number, message?: string) {
+    super(message);
+
+    Error.captureStackTrace(this, this.constructor);
+
+    this.status = status || 500;
+    this.name = this.name;
+    this.message = message || http.STATUS_CODES[this.status] || "Error";
+  }
 }
 
 export default HttpError;
