@@ -23,6 +23,8 @@ const connectOptions: IConnectOptions = {
 
 const MONGO_URI = `${config.database.MONGODB_URI}${config.database.MONGODB_DB_MAIN}`;
 
+mongoose.set("useFindAndModify", false);
+
 export const db: mongoose.Connection = mongoose.createConnection(
   MONGO_URI,
   connectOptions
