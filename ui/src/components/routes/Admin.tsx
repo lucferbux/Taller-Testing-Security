@@ -24,6 +24,8 @@ const Admin = () => {
   const { addNotification, removeLastNotification } = useApp();
   const { project, setProjectOrUndefined } = useProject();
 
+  const [evilInput, setEvilInput] = useState("");
+
   useEffect(() => {
     if (project) {
       fillUpForm(project);
@@ -128,6 +130,11 @@ const Admin = () => {
     onChangeAnyInput();
   }
 
+  function onChangeEvilInput(e: ChangeEvent<HTMLInputElement>) {
+    setEvilInput(e.target.value);
+    onChangeAnyInput();
+  }
+
   function readyToSubmit(): boolean {
     return title !== "" && description !== "" && tags !== "" && version !== "";
   }
@@ -198,6 +205,22 @@ const Admin = () => {
           </ButtonWrapper>
         </LoginPannel>
       </ContentWrapper>
+      <ContentWrapper>
+        <EvilInput>
+          <LoginForm
+            name="img"
+            type="text"
+            placeholder="image"
+            value={evilInput}
+            onChange={onChangeEvilInput}
+          />
+          <EvilDiv
+            dangerouslySetInnerHTML={{
+              __html: `<img  style="width: 200px;" src="${evilInput}"/>`,
+            }}
+          />
+        </EvilInput>
+      </ContentWrapper>
     </Wrapper>
   );
 };
@@ -258,6 +281,31 @@ const LoginPannel = styled.form`
     margin: 0px 20px;
     padding: 20px;
   }
+`;
+
+const EvilInput = styled.div`
+  padding: 20px 40px;
+  width: 400px;
+  ${themes.light.card};
+  border-radius: 8px;
+
+  display: grid;
+  row-gap: 16px;
+  grid-template-rows: auto;
+
+  @media (prefers-color-scheme: dark) {
+    ${themes.dark.card};
+  }
+
+  @media (max-width: 500px) {
+    width: auto;
+    margin: 0px 20px;
+    padding: 20px;
+  }
+`;
+
+const EvilDiv = styled.div`
+  padding: 20px 40px;
 `;
 
 const ErrorDescription = styled(Caption)`
