@@ -31,11 +31,6 @@ export type AuthToken = {
 
 const AboutMeSchema = new Schema<IAboutMeModel>(
   {
-    id: {
-      type: String,
-      unique: true,
-      trim: true
-    },
     name: String,
     birthday: Number,
     nationality: String,
