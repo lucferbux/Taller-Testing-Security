@@ -1,5 +1,5 @@
-import * as connections from "@/config/connection/connection";
-import { Document, Schema } from "mongoose";
+import * as connections from '@/config/connection/connection';
+import { Document, Schema } from 'mongoose';
 
 /**
  * @export
@@ -35,22 +35,19 @@ const ProjectsSchema = new Schema<IProjectsModel>(
     id: {
       type: String,
       unique: true,
-      trim: true,
+      trim: true
     },
     title: String,
     description: String,
     version: String,
     link: String,
     tag: String,
-    timestamp: Number,
+    timestamp: Number
   },
   {
-    collection: "projects",
-    versionKey: false,
+    collection: 'projects',
+    versionKey: false
   }
 );
 
-export default connections.db.model<IProjectsModel>(
-  "ProjectsModel",
-  ProjectsSchema
-);
+export default connections.db.model<IProjectsModel>('ProjectsModel', ProjectsSchema);

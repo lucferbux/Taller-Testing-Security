@@ -1,8 +1,8 @@
-import { createContext, ReactNode, useCallback, useState } from "react";
-import { Project } from "../model/project";
+import { createContext, ReactNode, useCallback, useState } from 'react';
+import { Project } from '../model/project';
 
 const ProjectContext = createContext<any>({
-  project: undefined,
+  project: undefined
 });
 
 interface Props {

@@ -1,8 +1,8 @@
-import * as Joi from "joi";
-import UserModel, { IUserModel } from "./model";
-import UserValidation from "./validation";
-import { IUserService } from "./interface";
-import { Types } from "mongoose";
+import * as Joi from 'joi';
+import UserModel, { IUserModel } from './model';
+import UserValidation from './validation';
+import { IUserService } from './interface';
+import { Types } from 'mongoose';
 
 /**
  * @export
@@ -31,7 +31,7 @@ const UserService: IUserService = {
       const validate: Joi.ValidationResult<{
         id: string;
       }> = UserValidation.getUser({
-        id,
+        id
       });
 
       if (validate.error) {
@@ -40,10 +40,10 @@ const UserService: IUserService = {
 
       return await UserModel.findOne(
         {
-          _id: Types.ObjectId(id),
+          _id: Types.ObjectId(id)
         },
         {
-          password: 0,
+          password: 0
         }
       );
     } catch (error) {
@@ -58,8 +58,7 @@ const UserService: IUserService = {
    */
   async insert(body: IUserModel): Promise<IUserModel> {
     try {
-      const validate: Joi.ValidationResult<IUserModel> =
-        UserValidation.createUser(body);
+      const validate: Joi.ValidationResult<IUserModel> = UserValidation.createUser(body);
 
       if (validate.error) {
         throw new Error(validate.error.message);
@@ -83,7 +82,7 @@ const UserService: IUserService = {
       const validate: Joi.ValidationResult<{
         id: string;
       }> = UserValidation.removeUser({
-        id,
+        id
       });
 
       if (validate.error) {
@@ -91,14 +90,14 @@ const UserService: IUserService = {
       }
 
       const user: IUserModel = await UserModel.findOneAndRemove({
-        _id: Types.ObjectId(id),
+        _id: Types.ObjectId(id)
       });
 
       return user;
     } catch (error) {
       throw new Error(error.message);
     }
-  },
+  }
 };
 
 export default UserService;

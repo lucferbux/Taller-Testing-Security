@@ -1,7 +1,7 @@
-import * as bcrypt from "bcrypt";
-import * as connections from "@/config/connection/connection";
-import { Document, Schema } from "mongoose";
-import { NextFunction } from "express";
+import * as bcrypt from 'bcrypt';
+import * as connections from '@/config/connection/connection';
+import { Document, Schema } from 'mongoose';
+import { NextFunction } from 'express';
 
 /**
  * @export
@@ -38,19 +38,19 @@ const UserSchema = new Schema<IUserModel>(
     email: {
       type: String,
       unique: true,
-      trim: true,
+      trim: true
     },
     password: String,
     passwordResetToken: String,
     passwordResetExpires: Date,
-    tokens: Array,
+    tokens: Array
   },
   {
-    collection: "users",
-    versionKey: false,
+    collection: 'users',
+    versionKey: false
   }
-).pre("save", async function (next: NextFunction): Promise<void> {
-  if (!this.isModified("password")) {
+).pre('save', async function (next: NextFunction): Promise<void> {
+  if (!this.isModified('password')) {
     return next();
   }
 
@@ -69,14 +69,9 @@ const UserSchema = new Schema<IUserModel>(
 /**
  * Method for comparing passwords
  */
-UserSchema.methods.comparePassword = async function (
-  candidatePassword: string
-): Promise<boolean> {
+UserSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
   try {
-    const match: boolean = await bcrypt.compare(
-      candidatePassword,
-      this.password
-    );
+    const match: boolean = await bcrypt.compare(candidatePassword, this.password);
 
     return match;
   } catch (error) {
@@ -84,4 +79,4 @@ UserSchema.methods.comparePassword = async function (
   }
 };
 
-export default connections.db.model<IUserModel>("UserModel", UserSchema);
+export default connections.db.model<IUserModel>('UserModel', UserSchema);

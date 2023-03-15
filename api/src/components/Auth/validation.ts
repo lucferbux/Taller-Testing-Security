@@ -1,6 +1,6 @@
-import * as Joi from "joi";
-import Validation from "@/components/validation";
-import { IUserModel } from "@/components/User/model";
+import * as Joi from 'joi';
+import Validation from '@/components/validation';
+import { IUserModel } from '@/components/User/model';
 
 /**
  * @export
@@ -18,9 +18,9 @@ class AuthValidation extends Validation {
       password: Joi.string().required(),
       email: Joi.string()
         .email({
-          minDomainSegments: 2,
+          minDomainSegments: 2
         })
-        .required(),
+        .required()
     });
 
     return schema.validate(params);
@@ -36,9 +36,9 @@ class AuthValidation extends Validation {
       password: Joi.string().required(),
       email: Joi.string()
         .email({
-          minDomainSegments: 2,
+          minDomainSegments: 2
         })
-        .required(),
+        .required()
     });
 
     return schema.validate(params);

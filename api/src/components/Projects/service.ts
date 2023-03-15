@@ -1,8 +1,8 @@
-import * as Joi from "joi";
-import ProjectModel, { IProjectsModel } from "./model";
-import ProjectsValidation from "./validation";
-import { IProjectsService } from "./interface";
-import { Types } from "mongoose";
+import * as Joi from 'joi';
+import ProjectModel, { IProjectsModel } from './model';
+import ProjectsValidation from './validation';
+import { IProjectsService } from './interface';
+import { Types } from 'mongoose';
 
 /**
  * @export
@@ -31,7 +31,7 @@ const ProjectsService: IProjectsService = {
       const validate: Joi.ValidationResult<{
         id: string;
       }> = ProjectsValidation.getProject({
-        id,
+        id
       });
 
       if (validate.error) {
@@ -40,10 +40,10 @@ const ProjectsService: IProjectsService = {
 
       return await ProjectModel.findOne(
         {
-          _id: Types.ObjectId(id),
+          _id: Types.ObjectId(id)
         },
         {
-          password: 0,
+          password: 0
         }
       );
     } catch (error) {
@@ -58,8 +58,7 @@ const ProjectsService: IProjectsService = {
    */
   async insert(body: IProjectsModel): Promise<IProjectsModel> {
     try {
-      const validate: Joi.ValidationResult<IProjectsModel> =
-        ProjectsValidation.createProject(body);
+      const validate: Joi.ValidationResult<IProjectsModel> = ProjectsValidation.createProject(body);
 
       if (validate.error) {
         throw new Error(validate.error.message);
@@ -83,7 +82,7 @@ const ProjectsService: IProjectsService = {
       const validate: Joi.ValidationResult<{
         id: string;
       }> = ProjectsValidation.removeProject({
-        id,
+        id
       });
 
       if (validate.error) {
@@ -91,14 +90,14 @@ const ProjectsService: IProjectsService = {
       }
 
       const project: IProjectsModel = await ProjectModel.findOneAndRemove({
-        _id: Types.ObjectId(id),
+        _id: Types.ObjectId(id)
       });
 
       return project;
     } catch (error) {
       throw new Error(error.message);
     }
-  },
+  }
 };
 
 export default ProjectsService;

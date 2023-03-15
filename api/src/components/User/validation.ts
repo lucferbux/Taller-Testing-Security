@@ -1,6 +1,6 @@
-import * as Joi from "joi";
-import Validation from "@/components/validation";
-import { IUserModel } from "./model";
+import * as Joi from 'joi';
+import Validation from '@/components/validation';
+import { IUserModel } from './model';
 
 /**
  * @export
@@ -18,9 +18,9 @@ class UserValidation extends Validation {
       name: Joi.string().required(),
       email: Joi.string()
         .email({
-          minDomainSegments: 2,
+          minDomainSegments: 2
         })
-        .required(),
+        .required()
     });
 
     return schema.validate(params);
@@ -35,7 +35,7 @@ class UserValidation extends Validation {
     id: string;
   }> {
     const schema: Joi.ObjectSchema = Joi.object().keys({
-      id: this.customJoi.objectId().required(),
+      id: this.customJoi.objectId().required()
     });
 
     return schema.validate(body);
@@ -50,7 +50,7 @@ class UserValidation extends Validation {
     id: string;
   }> {
     const schema: Joi.ObjectSchema = Joi.object().keys({
-      id: this.customJoi.objectId().required(),
+      id: this.customJoi.objectId().required()
     });
 
     return schema.validate(body);

@@ -1,5 +1,5 @@
-import * as connections from "@/config/connection/connection";
-import { Document, Schema } from "mongoose";
+import * as connections from '@/config/connection/connection';
+import { Document, Schema } from 'mongoose';
 
 /**
  * @export
@@ -34,21 +34,18 @@ const AboutMeSchema = new Schema<IAboutMeModel>(
     id: {
       type: String,
       unique: true,
-      trim: true,
+      trim: true
     },
     name: String,
     birthday: Number,
     nationality: String,
     job: String,
-    github: String,
+    github: String
   },
   {
-    collection: "profile",
-    versionKey: false,
+    collection: 'profile',
+    versionKey: false
   }
 );
 
-export default connections.db.model<IAboutMeModel>(
-  "AboutMeModel",
-  AboutMeSchema
-);
+export default connections.db.model<IAboutMeModel>('AboutMeModel', AboutMeSchema);

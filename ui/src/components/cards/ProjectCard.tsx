@@ -1,24 +1,16 @@
-import React from "react";
-import styled from "styled-components";
-import useAuth from "../../hooks/useAuth";
-import useToggle from "../../hooks/useToogle";
-import { Project } from "../../model/project";
-import { themes } from "../../styles/ColorStyles";
-import {
-  H3,
-  DescriptionCard,
-  SmallText,
-  SmallText2,
-} from "../../styles/TextStyles";
-import codeIcon from "./code.svg";
+import React from 'react';
+import styled from 'styled-components';
+import useAuth from '../../hooks/useAuth';
+import useToggle from '../../hooks/useToogle';
+import { Project } from '../../model/project';
+import { themes } from '../../styles/ColorStyles';
+import { H3, DescriptionCard, SmallText, SmallText2 } from '../../styles/TextStyles';
+import codeIcon from './code.svg';
 
 interface ProjectCardProps {
   project: Project;
   closeButton: (element: React.MouseEvent<HTMLElement>, id: string) => void;
-  updateButton: (
-    element: React.MouseEvent<HTMLElement>,
-    project: Project
-  ) => void;
+  updateButton: (element: React.MouseEvent<HTMLElement>, project: Project) => void;
   captionText?: string;
 }
 
@@ -51,9 +43,7 @@ const ProjectCard = (props: ProjectCardProps) => {
             <CardVersionText>{project.version}</CardVersionText>
           </CardVersion>
           {user && (
-            <KebabButton
-              onClick={(e: React.MouseEvent<HTMLElement>) => toggleMenu(e)}
-            >
+            <KebabButton onClick={(e: React.MouseEvent<HTMLElement>) => toggleMenu(e)}>
               <KebabDot />
               <KebabDot />
               <KebabDot />
@@ -66,16 +56,14 @@ const ProjectCard = (props: ProjectCardProps) => {
             <MenuDropDown>
               <MenuDropDownItem
                 isWarning={false}
-                onClick={(e: React.MouseEvent<HTMLElement>) =>
-                  props.updateButton(e, project)
-                }
+                onClick={(e: React.MouseEvent<HTMLElement>) => props.updateButton(e, project)}
               >
                 Update
               </MenuDropDownItem>
               <MenuDropDownItem
                 isWarning={true}
                 onClick={(e: React.MouseEvent<HTMLElement>) => {
-                  props.closeButton(e, project._id ?? "");
+                  props.closeButton(e, project._id ?? '');
                   toggle();
                 }}
               >
@@ -85,7 +73,7 @@ const ProjectCard = (props: ProjectCardProps) => {
           </>
         )}
         <CardCaption data-testid="caption">
-          {props.captionText ? props.captionText : ""}
+          {props.captionText ? props.captionText : ''}
         </CardCaption>
         <CardTitle>{project.title}</CardTitle>
         <CardDescription>{project.description}</CardDescription>
@@ -160,12 +148,10 @@ const MenuDropDownItem = styled.button<MenuDropDownItemProps>`
   background: none;
   margin: 6px 0px;
   cursor: pointer;
-  color: ${(props) =>
-    props.isWarning ? themes.light.warning : themes.light.text1};
+  color: ${(props) => (props.isWarning ? themes.light.warning : themes.light.text1)};
 
   @media (prefers-color-scheme: dark) {
-    color: ${(props) =>
-      props.isWarning ? themes.light.warning : themes.dark.text1};
+    color: ${(props) => (props.isWarning ? themes.light.warning : themes.dark.text1)};
   }
 `;
 

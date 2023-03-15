@@ -1,8 +1,8 @@
-import * as Joi from "joi";
-import AboutMeModel, { IAboutMeModel } from "./model";
-import AboutMeValidation from "./validation";
-import { IAboutMeService } from "./interface";
-import { Types } from "mongoose";
+import * as Joi from 'joi';
+import AboutMeModel, { IAboutMeModel } from './model';
+import AboutMeValidation from './validation';
+import { IAboutMeService } from './interface';
+import { Types } from 'mongoose';
 
 /**
  * @export
@@ -19,7 +19,7 @@ const AboutMeService: IAboutMeService = {
       if (result.length > 0) {
         return result[0];
       } else {
-        throw new Error("empty search");
+        throw new Error('empty search');
       }
     } catch (error) {
       throw new Error(error.message);
@@ -36,7 +36,7 @@ const AboutMeService: IAboutMeService = {
       const validate: Joi.ValidationResult<{
         id: string;
       }> = AboutMeValidation.getAboutMe({
-        id,
+        id
       });
 
       if (validate.error) {
@@ -45,10 +45,10 @@ const AboutMeService: IAboutMeService = {
 
       return await AboutMeModel.findOne(
         {
-          _id: Types.ObjectId(id),
+          _id: Types.ObjectId(id)
         },
         {
-          password: 0,
+          password: 0
         }
       );
     } catch (error) {
@@ -63,8 +63,7 @@ const AboutMeService: IAboutMeService = {
    */
   async insert(body: IAboutMeModel): Promise<IAboutMeModel> {
     try {
-      const validate: Joi.ValidationResult<IAboutMeModel> =
-        AboutMeValidation.createAboutMe(body);
+      const validate: Joi.ValidationResult<IAboutMeModel> = AboutMeValidation.createAboutMe(body);
 
       if (validate.error) {
         throw new Error(validate.error.message);
@@ -88,7 +87,7 @@ const AboutMeService: IAboutMeService = {
       const validate: Joi.ValidationResult<{
         id: string;
       }> = AboutMeValidation.removeAboutMe({
-        id,
+        id
       });
 
       if (validate.error) {
@@ -96,14 +95,14 @@ const AboutMeService: IAboutMeService = {
       }
 
       const user: IAboutMeModel = await AboutMeModel.findOneAndRemove({
-        _id: Types.ObjectId(id),
+        _id: Types.ObjectId(id)
       });
 
       return user;
     } catch (error) {
       throw new Error(error.message);
     }
-  },
+  }
 };
 
 export default AboutMeService;

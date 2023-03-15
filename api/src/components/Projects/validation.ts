@@ -1,6 +1,6 @@
-import * as Joi from "joi";
-import Validation from "@/components/validation";
-import { IProjectsModel } from "./model";
+import * as Joi from 'joi';
+import Validation from '@/components/validation';
+import { IProjectsModel } from './model';
 
 /**
  * @export
@@ -20,7 +20,7 @@ class ProjectsValidation extends Validation {
       version: Joi.string().optional(),
       link: Joi.string().optional(),
       tag: Joi.string().optional(),
-      timestamp: Joi.number().optional(),
+      timestamp: Joi.number().optional()
     });
 
     return schema.validate(params);
@@ -35,7 +35,7 @@ class ProjectsValidation extends Validation {
     id: string;
   }> {
     const schema: Joi.ObjectSchema = Joi.object().keys({
-      id: this.customJoi.objectId().required(),
+      id: this.customJoi.objectId().required()
     });
 
     return schema.validate(body);
@@ -50,7 +50,7 @@ class ProjectsValidation extends Validation {
     id: string;
   }> {
     const schema: Joi.ObjectSchema = Joi.object().keys({
-      id: this.customJoi.objectId().required(),
+      id: this.customJoi.objectId().required()
     });
 
     return schema.validate(body);

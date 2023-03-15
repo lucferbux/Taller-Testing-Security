@@ -1,6 +1,6 @@
-import * as Joi from "joi";
-import Validation from "@/components/validation";
-import { IAboutMeModel } from "./model";
+import * as Joi from 'joi';
+import Validation from '@/components/validation';
+import { IAboutMeModel } from './model';
 
 /**
  * @export
@@ -19,7 +19,7 @@ class AboutMeValidation extends Validation {
       birthday: Joi.number().optional(),
       nationality: Joi.string().optional(),
       job: Joi.string().optional(),
-      github: Joi.string().optional(),
+      github: Joi.string().optional()
     });
 
     return schema.validate(params);
@@ -34,7 +34,7 @@ class AboutMeValidation extends Validation {
     id: string;
   }> {
     const schema: Joi.ObjectSchema = Joi.object().keys({
-      id: this.customJoi.objectId().required(),
+      id: this.customJoi.objectId().required()
     });
 
     return schema.validate(body);
@@ -49,7 +49,7 @@ class AboutMeValidation extends Validation {
     id: string;
   }> {
     const schema: Joi.ObjectSchema = Joi.object().keys({
-      id: this.customJoi.objectId().required(),
+      id: this.customJoi.objectId().required()
     });
 
     return schema.validate(body);
