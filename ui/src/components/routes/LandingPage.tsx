@@ -17,7 +17,7 @@ const LandingPage = () => {
         <Title>{t('landing.title')}</Title>
       </ContentWrapper>
       <LottieWrapper>
-      <Lottie animationData={animationData} loop={true} />
+        <Lottie animationData={animationData} loop={true} />
       </LottieWrapper>
     </Wrapper>
   );
