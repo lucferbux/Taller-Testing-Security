@@ -4,6 +4,7 @@ import ApiClient, {
   Forbidden,
   GenericError,
   NotFound,
+  DashboardInfo,
   PreconditionFailed,
   PreconditionRequired,
   ProjectResponse,
@@ -121,7 +122,16 @@ export default class HttpApiClient implements ApiClient {
       return response.json();
     });
 
-  async postProject(project: Project): Promise<ProjectResponse> {
+  getDashboardInfo = (): Promise<DashboardInfo> => {
+    return Promise.all([this.getAboutMe(), this.getProjects()]).then(([aboutMe, projects]) => {
+      return {
+        aboutMe,
+        projects
+      };
+    });
+  };
+
+  postProject = async (project: Project): Promise<ProjectResponse> => {
     const response = await fetch(this.baseUrl + '/v1/projects', {
       method: 'POST',
       headers: {
@@ -135,9 +145,9 @@ export default class HttpApiClient implements ApiClient {
       throw await createApiError(response);
     }
     return response.json();
-  }
+  };
 
-  async updateProject(project: Project): Promise<ProjectResponse> {
+  updateProject = async (project: Project): Promise<ProjectResponse> => {
     const response = await fetch(this.baseUrl + '/v1/projects', {
       method: 'PUT',
       headers: {
@@ -151,9 +161,17 @@ export default class HttpApiClient implements ApiClient {
       throw await createApiError(response);
     }
     return response.json();
-  }
+  };
 
-  async deleteProject(projectId: string): Promise<ProjectResponse> {
+  createOrUpdateProject = async (project: Project, create: boolean): Promise<ProjectResponse> => {
+    if (create) {
+      return this.postProject(project);
+    } else {
+      return this.updateProject(project);
+    }
+  };
+
+  deleteProject = async (projectId: string): Promise<ProjectResponse> => {
     const response = await fetch(this.baseUrl + '/v1/projects', {
       method: 'DELETE',
       headers: {
@@ -163,10 +181,9 @@ export default class HttpApiClient implements ApiClient {
       },
       body: JSON.stringify({ id: projectId })
     });
-    console.log(response);
     if (!response.ok) {
       throw await createApiError(response);
     }
     return response.json();
-  }
+  };
 }
