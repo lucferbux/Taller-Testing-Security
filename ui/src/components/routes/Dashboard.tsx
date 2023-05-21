@@ -70,6 +70,7 @@ const Dashboard = () => {
                   <ProjectCard
                     project={project}
                     key={index}
+                    user={user}
                     closeButton={(e, id) => deleteProject(e, id)}
                     updateButton={(e, id) => updateProject(e, id)}
                   />
