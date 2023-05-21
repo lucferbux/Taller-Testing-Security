@@ -163,8 +163,8 @@ export default class HttpApiClient implements ApiClient {
     return response.json();
   };
 
-  createOrUpdateProject = async (project: Project, create: boolean): Promise<ProjectResponse> => {
-    if (create) {
+  createOrUpdateProject = async (project: Project): Promise<ProjectResponse> => {
+    if (project._id === undefined) {
       return this.postProject(project);
     } else {
       return this.updateProject(project);

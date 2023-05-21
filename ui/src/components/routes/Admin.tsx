@@ -30,6 +30,7 @@ const Admin = () => {
   const readyToSubmit =
     projectInput.title !== '' &&
     projectInput.description !== '' &&
+    projectInput.link !== '' &&
     projectInput.tag !== '' &&
     projectInput.version !== '';
 
@@ -48,10 +49,15 @@ const Admin = () => {
     const errorMessage = !readyToSubmit ? t('admin.err_invalid_form') : undefined;
     const newProject = {
       ...projectInput,
+      title: projectInput?.title || '',
+      description: projectInput?.description || '',
+      tag: projectInput?.tag || '',
+      version: projectInput?.version || '',
+      link: projectInput?.link || '',
       timestamp: projectInput?.timestamp || Date.now()
     };
 
-    createOrUpdate(newProject as Project, projectInput._id === undefined, errorMessage);
+    createOrUpdate(newProject, errorMessage);
   }
 
   function onChange(e: ChangeEvent<HTMLInputElement>, attribute: keyof Project) {
