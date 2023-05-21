@@ -44,6 +44,7 @@ export interface DashboardInfo {
 export default interface ApiClient {
   token(email: string, password: string): Promise<TokenResponse>;
   // TODO: 5) Add logout to api call
+  logout(): Promise<ProjectResponse>;
   getAboutMe(): Promise<AboutMe>;
   getProjects(): Promise<Project[]>;
   getDashboardInfo(): Promise<DashboardInfo>;

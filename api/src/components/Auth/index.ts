@@ -54,20 +54,56 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
       }
     );
 
-    res
-      .status(HttpStatus.OK)
-      .header({
-        Authorization: token
-      })
-      .send({
-        token: token
-      });
+    // TODO: 1) Install cookie-parser
+    // TODO: 1) Change the res to accept a cookie httponly
+
+    res.cookie('token', token, {
+      expires: new Date(Date.now() + 60 * 60 * 1000),
+      httpOnly: true,
+      secure: true,
+      sameSite: true
+    });
+
+    res.status(HttpStatus.OK).send({
+      token: token
+    });
   } catch (error) {
     if (error.code === 500) {
       return next(new HttpError(error.message.status, error.message));
     }
     res.status(HttpStatus.BAD_REQUEST).send({
       message: 'Invalid Login'
+    });
+  }
+}
+
+// TODO: 3) Add /logout route
+
+/**
+ * @export
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @returns {Promise < void >}
+ */
+export async function logout(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    res.cookie('token', 'none', {
+      expires: new Date(Date.now() + 5 * 1000),
+      httpOnly: true,
+      secure: true,
+      sameSite: true
+    });
+
+    res.status(HttpStatus.OK).send({
+      message: 'User logged out successfully'
+    });
+  } catch (error) {
+    if (error.code === 500) {
+      return next(new HttpError(error.message.status, error.message));
+    }
+    res.status(HttpStatus.BAD_REQUEST).send({
+      message: 'Invalid LogOut'
     });
   }
 }

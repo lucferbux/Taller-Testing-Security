@@ -5,11 +5,19 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import { HttpError } from '@/config/error';
 import { sendHttpErrorModule } from '@/config/error/sendHttpError';
 import Logger from '@/utils/Logger';
 
 // TODO: 7) Añadir el rate limit
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false // Disable the `X-RateLimit-*` headers
+});
 
 /**
  * @export
@@ -36,6 +44,9 @@ export function configure(app: express.Application): void {
       optionsSuccessStatus: HttpStatus.OK
     })
   );
+
+  // Apply the rate limiting middleware to all requests
+  app.use(limiter);
 
   // custom errors
   app.use(sendHttpErrorModule);

@@ -1,7 +1,6 @@
-import * as dotenv from 'dotenv';
+import flow from 'dotenv-flow';
 
-dotenv.config();
-
+flow.config();
 interface IConfig {
   port: string | number;
   database: {

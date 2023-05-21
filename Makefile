@@ -5,6 +5,7 @@ MONGODB_ATLAS ?= mongodb+srv://<username>:<password>@<cluster>.mongodb.net
 # TODO: 8) Añadir un script para iniciar dev en https
 
 # Init Scripts
+
 .PHONY: dev-api
 dev-api:
 	cd api && npm run dev
@@ -18,6 +19,7 @@ dev-start:
 	make -j 3 mongo-start dev-api dev-ui
 
 # DB Scripts
+
 .PHONY: dev-populate-data
 dev-populate-data:
 	cd scripts && ./mongoimport.sh
@@ -46,7 +48,8 @@ generate-password:
 import-atlass:
 	cd scripts && ./mongoimportatlass.sh $(MONGODB_ATLAS)
 
-# Installation scripst
+# Installation scripts
+
 .PHONY: install-ui
 install-ui:
 	cd ui && npm install
@@ -59,3 +62,19 @@ install-backend:
 install-dependencies: install-ui install-backend
 
 # TODO: 9) Añadir scripts para npm audit en frontend y backend
+
+# Audit scripts
+
+.PHONY: audit-frontend
+audit-frontend:
+	cd ui && npm audit
+
+.PHONY: audit-backend
+audit-backend:
+	cd backend && npm audit
+
+# Testing
+
+.PHONY: story-book
+story-book:
+	cd ui && npm run storybook

@@ -1,15 +1,18 @@
 import jwt_decode from 'jwt-decode';
-import { tokenKey } from '../constants/config';
+import { Unauthorized } from '../api/api-client';
+import createApiClient from '../api/api-client-factory';
+import { userKey } from '../constants/config';
 import { User } from '../model/user';
 
-interface Token {
-  accessToken: string;
+interface UserToken {
+  id: string;
+  email: string;
   notBeforeTimestampInMillis: number;
   expirationTimestampInMillis: number;
 }
 
 interface JWTPayload {
-  _id: string;
+  id: string;
   email: string;
   iat: number;
   exp: number;
@@ -24,89 +27,112 @@ let logoutIfExpiredHandlerId: NodeJS.Timeout;
 // 2. Use a new User Local Storage with expiration time of JWT and User attributes
 // 3. Call backend to logout if expired
 
-export function setLogoutIfExpiredHandler(setUser: (user: any) => void) {
-  if (!isTokenActive()) {
+function setLogoutIfExpiredHandler() {
+  if (!isUserActive()) {
     return;
   }
-  const token = getToken();
+  const token = getUserStorage();
   if (!token) {
     return;
   }
 
   logoutIfExpiredHandlerId = setTimeout(
-    () => setUser(undefined),
+    () => logout(),
     token.expirationTimestampInMillis - Date.now()
   );
 }
 
-export function setAuthToken(accessToken: string) {
+function setUserToken(accessToken: string) {
   const tokenPayload = getPayload(accessToken);
-  const token: Token = {
-    accessToken: accessToken,
+  const token: UserToken = {
+    id: tokenPayload.id,
+    email: tokenPayload.email,
     notBeforeTimestampInMillis: tokenPayload.iat * 1000,
     expirationTimestampInMillis: tokenPayload.exp * 1000
   };
-  localStorage.setItem(tokenKey, JSON.stringify(token));
+  localStorage.setItem(userKey, JSON.stringify(token));
 }
 
-function logout() {
-  removeAuthToken();
-  clearTimeout(logoutIfExpiredHandlerId);
+async function login(username: string, password: string) {
+  const api = createApiClient();
+  try {
+    const result = await api.token(username, password);
+    setUserToken(result.token);
+    setLogoutIfExpiredHandler();
+  } catch (apiError) {
+    if (apiError instanceof Unauthorized) {
+      throw new WrongCredentialsException();
+    } else {
+      throw new Error();
+    }
+  }
 }
 
-export function removeAuthToken() {
-  localStorage.removeItem(tokenKey);
+async function logout() {
+  try {
+    removeUser();
+    clearTimeout(logoutIfExpiredHandlerId);
+    const api = createApiClient();
+    await api.logout();
+  } catch (error) {
+    console.log(error);
+    console.log('Error while logging out');
+  }
 }
 
 function getPayload(token: string): JWTPayload {
   return jwt_decode(token);
 }
 
-function getToken(): Token | null {
-  let token: Token;
-  const tokenJson = localStorage.getItem(tokenKey);
-  if (tokenJson) {
-    token = JSON.parse(tokenJson);
-    return token;
+function removeUser() {
+  localStorage.removeItem(userKey);
+}
+
+function getUserStorage(): UserToken | null {
+  let user: UserToken;
+  const userJson = localStorage.getItem(userKey);
+  if (userJson) {
+    user = JSON.parse(userJson);
+    return user;
   }
   return null;
 }
 
-function getAccessToken(): string {
-  const token = getToken();
-  if (token) {
-    return token.accessToken;
-  }
-  return '';
-}
-
-export function getCurrentUser(): User | undefined {
-  const token = getToken();
-  if (token) {
-    if (!isTokenActive()) {
+function getCurrentUser(): User | undefined {
+  const user = getUserStorage();
+  if (user) {
+    if (!isUserActive()) {
       logout();
       return undefined;
     }
-    const tokenPayload = getPayload(token.accessToken);
     return {
-      _id: tokenPayload._id,
+      id: user.id,
       active: true,
-      email: tokenPayload.email
+      email: user.email
     };
   } else {
     return undefined;
   }
 }
 
-function isTokenActive(): boolean {
-  const token = getToken();
+function isUserActive(): boolean {
+  const user = getUserStorage();
   const currentTimestamp = Date.now();
 
   return !!(
-    token &&
-    token.expirationTimestampInMillis - currentTimestamp > 0 &&
-    token.notBeforeTimestampInMillis <= currentTimestamp
+    user &&
+    user.expirationTimestampInMillis - currentTimestamp > 0 &&
+    user.notBeforeTimestampInMillis <= currentTimestamp
   );
 }
 
-export { WrongCredentialsException, logout, getAccessToken, isTokenActive };
+export {
+  WrongCredentialsException,
+  login,
+  logout,
+  isUserActive,
+  getCurrentUser,
+  removeUser,
+  setUserToken,
+  setLogoutIfExpiredHandler
+};

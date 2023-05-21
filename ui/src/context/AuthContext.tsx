@@ -1,12 +1,11 @@
 import { createContext, ReactNode, useCallback, useEffect, useState } from 'react';
-import createApiClient from '../api/api-client-factory';
 import { User } from '../model/user';
 import {
   getCurrentUser,
-  isTokenActive,
+  isUserActive,
   setLogoutIfExpiredHandler,
-  logout as logoutService,
-  setAuthToken
+  login as loginService,
+  logout as logoutService
 } from '../utils/auth';
 
 type AuthContextType = {
@@ -39,23 +38,24 @@ export function AuthProvider({ children }: Props) {
   }, []);
 
   useEffect(() => {
-    if (isTokenActive()) {
-      setLogoutIfExpiredHandler(setUser);
+    if (isUserActive()) {
+      setLogoutIfExpiredHandler();
       loadUser();
     } else {
-      logoutService();
-      setUser(undefined);
+      try {
+        logoutService();
+        setUser(undefined);
+      } catch (e) {
+        console.log(e);
+      }
     }
   }, [loadUser]);
 
   const login = useCallback(
     async (username: string, password: string) => {
-      const api = createApiClient();
       setIsLoading(true);
       try {
-        const result = await api.token(username, password);
-        setAuthToken(result.token);
-        setLogoutIfExpiredHandler(setUser);
+        await loginService(username, password);
         loadUser();
       } catch (apiError) {
         throw new Error();
@@ -63,16 +63,20 @@ export function AuthProvider({ children }: Props) {
         setIsLoading(false);
       }
     },
-    [setUser, loadUser]
+    [loadUser]
   );
 
   const logout = useCallback(async () => {
-    logoutService();
-    setUser(undefined);
+    try {
+      await logoutService();
+      setUser(undefined);
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isLoading,  login, logout, loadUser }}>
+    <AuthContext.Provider value={{ user, isLoading, login, logout, loadUser }}>
       {children}
     </AuthContext.Provider>
   );

@@ -13,7 +13,7 @@ import ApiClient, {
   UnprocessableEntity
 } from './api-client';
 
-import { getAccessToken, removeAuthToken } from '../utils/auth';
+import { removeUser } from '../utils/auth';
 import { Project } from '../model/project';
 import { AboutMe } from '../model/aboutme';
 
@@ -52,7 +52,7 @@ const handleResponse = async <T>(func: () => Promise<T>): Promise<T> => {
   } catch (e) {
     if (e instanceof Unauthorized) {
       // TODO: 4) Refactor auth calls
-      removeAuthToken();
+      removeUser();
       window.location.replace('/');
     }
     throw e;
@@ -60,16 +60,6 @@ const handleResponse = async <T>(func: () => Promise<T>): Promise<T> => {
 };
 
 // TODO: 5) Remove authorization header from all requests
-
-const getAuthorizationHeader = () => {
-  const accessToken = getAccessToken();
-  if (accessToken) {
-    return 'Bearer ' + accessToken;
-  } else {
-    throw Object.assign(new Error('Unauthorized'), { code: 402 });
-  }
-};
-
 export default class HttpApiClient implements ApiClient {
   baseUrl: string;
 
@@ -82,7 +72,7 @@ export default class HttpApiClient implements ApiClient {
       email: email,
       password: password
     });
-    const response = await fetch(this.baseUrl + '/auth/login', {
+    const response = await fetch(this.baseUrl + '/auth/login/', {
       method: 'POST',
       body: body
     });
@@ -94,13 +84,20 @@ export default class HttpApiClient implements ApiClient {
 
   // TODO: 5) Add logout to api call
 
+  logout = async (): Promise<ProjectResponse> => {
+    const response = await fetch(this.baseUrl + '/auth/logout/', {
+      method: 'POST'
+    });
+    if (!response.ok) {
+      throw await createApiError(response);
+    }
+    return response.json();
+  };
+
   getAboutMe = (): Promise<AboutMe> =>
     handleResponse(async () => {
       const response = await fetch(this.baseUrl + `/v1/aboutme/`, {
-        method: 'GET',
-        headers: {
-          //Authorization: getAuthorizationHeader()
-        }
+        method: 'GET'
       });
       if (!response.ok) {
         throw await createApiError(response);
@@ -111,10 +108,7 @@ export default class HttpApiClient implements ApiClient {
   getProjects = (): Promise<Project[]> =>
     handleResponse(async () => {
       const response = await fetch(this.baseUrl + `/v1/projects/`, {
-        method: 'GET',
-        headers: {
-          //Authorization: getAuthorizationHeader()
-        }
+        method: 'GET'
       });
       if (!response.ok) {
         throw await createApiError(response);
@@ -132,10 +126,9 @@ export default class HttpApiClient implements ApiClient {
   };
 
   postProject = async (project: Project): Promise<ProjectResponse> => {
-    const response = await fetch(this.baseUrl + '/v1/projects', {
+    const response = await fetch(this.baseUrl + '/v1/projects/', {
       method: 'POST',
       headers: {
-        Authorization: getAuthorizationHeader(),
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
@@ -148,10 +141,9 @@ export default class HttpApiClient implements ApiClient {
   };
 
   updateProject = async (project: Project): Promise<ProjectResponse> => {
-    const response = await fetch(this.baseUrl + '/v1/projects', {
+    const response = await fetch(this.baseUrl + '/v1/projects/', {
       method: 'PUT',
       headers: {
-        Authorization: getAuthorizationHeader(),
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
@@ -172,10 +164,9 @@ export default class HttpApiClient implements ApiClient {
   };
 
   deleteProject = async (projectId: string): Promise<ProjectResponse> => {
-    const response = await fetch(this.baseUrl + '/v1/projects', {
+    const response = await fetch(this.baseUrl + '/v1/projects/', {
       method: 'DELETE',
       headers: {
-        Authorization: getAuthorizationHeader(),
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },

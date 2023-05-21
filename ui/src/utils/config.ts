@@ -1,8 +1,12 @@
-const baseUrl = import.meta.env.VITE_BASE_URI;
-let apiBaseUrl = import.meta.env.VITE_API_URI;
+export const getDefaultBaseUrl = (baseUrl?: string, apiBaseUrl?: string) => {
+  if (baseUrl) {
+    apiBaseUrl = apiBaseUrl || '';
+    return baseUrl + apiBaseUrl;
+  }
+  return '';
+};
 
-if (baseUrl) {
-  apiBaseUrl = baseUrl + '/_/api';
-}
-
-export const API_BASE_URI = apiBaseUrl;
+export const API_BASE_URI = getDefaultBaseUrl(
+  import.meta.env.VITE_BASE_URI,
+  import.meta.env.VITE_API_URI
+);
