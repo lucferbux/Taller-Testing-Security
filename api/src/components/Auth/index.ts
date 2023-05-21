@@ -1,5 +1,5 @@
-import * as HttpStatus from 'http-status-codes';
-import * as jwt from 'jsonwebtoken';
+import HttpStatus from 'http-status-codes';
+import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import { IUserModel, IUserRequest } from '@/components/User/model';
 import HttpError from '@/config/error';

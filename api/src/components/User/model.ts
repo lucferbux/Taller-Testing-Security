@@ -20,12 +20,12 @@ export interface IUserRequest {
 export interface IUserModel extends Document {
   email: string;
   password: string;
-  passwordResetToken: string;
-  passwordResetExpires: Date;
+  passwordResetToken?: string;
+  passwordResetExpires?: Date;
 
-  tokens: AuthToken[];
+  tokens?: AuthToken[];
 
-  comparePassword: (password: string) => Promise<boolean>;
+  comparePassword?: (password: string) => Promise<boolean>;
 }
 
 export type AuthToken = {

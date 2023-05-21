@@ -1,6 +1,7 @@
-import * as Joi from 'joi';
+import Joi from 'joi';
 import Validation from '@/components/validation';
 import { IUserModel } from '@/components/User/model';
+import { DocumentDefinition } from 'mongoose';
 
 /**
  * @export
@@ -13,7 +14,7 @@ class AuthValidation extends Validation {
    * @returns {Joi.ValidationResult<IUserModel >}
    * @memberof UserValidation
    */
-  createUser(params: IUserModel): Joi.ValidationResult<IUserModel> {
+  createUser(params: DocumentDefinition<IUserModel>): Joi.ValidationResult<IUserModel> {
     const schema: Joi.ObjectSchema = Joi.object().keys({
       password: Joi.string().required(),
       email: Joi.string()

@@ -1,4 +1,4 @@
-import * as Joi from 'joi';
+import Joi from 'joi';
 import ProjectModel, { IProjectsModel } from './model';
 import ProjectsValidation from './validation';
 import { IProjectsService } from './interface';

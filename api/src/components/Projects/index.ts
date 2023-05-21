@@ -14,7 +14,7 @@ export async function findAll(req: Request, res: Response, next: NextFunction): 
   try {
     const aboutMeArray: IProjectsModel[] = await ProjectsService.findAll();
 
-    res.status(200).json(aboutMeArray);
+    res.status(200).json(aboutMeArray.sort((a, b) => a.timestamp - b.timestamp));
   } catch (error) {
     next(new HttpError(error.message.status, error.message));
   }

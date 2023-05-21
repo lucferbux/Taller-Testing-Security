@@ -1,4 +1,4 @@
-import * as Joi from 'joi';
+import Joi from 'joi';
 import AboutMeModel, { IAboutMeModel } from './model';
 import AboutMeValidation from './validation';
 import { IAboutMeService } from './interface';
