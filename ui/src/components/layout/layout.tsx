@@ -5,6 +5,7 @@ import { themes } from '../../styles/ColorStyles';
 import Header from './header';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
+import useAuth from '../../hooks/useAuth';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,6 +13,8 @@ interface LayoutProps {
 
 const Layout = (props: LayoutProps) => {
   const { t } = useTranslation();
+
+  const { user, logout } = useAuth();
 
   return (
     <>
@@ -31,7 +34,7 @@ const Layout = (props: LayoutProps) => {
         />
       </Helmet>
       <GlobalStyle />
-      <Header />
+      <Header user={user} logout={logout} />
       <main>{props.children}</main>
       {/* <Footer/> */}
     </>

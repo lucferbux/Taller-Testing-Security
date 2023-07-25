@@ -2,10 +2,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import useAuth from '../../hooks/useAuth';
 import useToggle from '../../hooks/useToogle';
 import { themes } from '../../styles/ColorStyles';
 import { MenuButton } from '../elements/MenuButton';
+import { User } from '../../model/user';
 
 // TODO: 10) Añadir testing para Header
 
@@ -25,9 +25,13 @@ export const menuData = [
   }
 ];
 
-const Header = () => {
+interface HeaderProps {
+  user: User | undefined;
+  logout: () => void;
+}
+
+const Header = ({ user, logout }: HeaderProps) => {
   const { t } = useTranslation();
-  const { user, logout } = useAuth();
 
   // TODO: 7) Add the menu button with a logout action
 

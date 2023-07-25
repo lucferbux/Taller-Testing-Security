@@ -11,9 +11,15 @@ import avatarCard from './Avatar.jpg';
 // TODO: 12) Crear tests de integración con testing-library/react para AboutMeCard
 
 interface AboutMeCardProps {
+  /**
+   * Detailed information about the user
+   */
   aboutMe: AboutMe;
 }
 
+/**
+ * Primary UI component to display the about me card
+ */
 const AboutMeCard = (props: AboutMeCardProps) => {
   const { t } = useTranslation();
 
