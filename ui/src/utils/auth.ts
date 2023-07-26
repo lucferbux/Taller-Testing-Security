@@ -59,11 +59,11 @@ async function login(username: string, password: string) {
     const result = await api.token(username, password);
     setUserToken(result.token);
     setLogoutIfExpiredHandler();
-  } catch (apiError) {
-    if (apiError instanceof Unauthorized) {
+  } catch (error) {
+    if (error instanceof Unauthorized) {
       throw new WrongCredentialsException();
-    } else {
-      throw new Error();
+    } else if (error instanceof Error) {
+      throw new Error(`Error logging ${error.message}`, error);
     }
   }
 }

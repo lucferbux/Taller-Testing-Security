@@ -15,8 +15,6 @@ import { vi, test, expect, beforeEach, afterEach, describe } from 'vitest';
 
 vi.mock('../api/api-client-factory');
 
-const mockedCreateApiClient = createApiClient as any;
-
 const ANY_ACCESS_TOKEN =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMTJiNGRmYjUxODlmMzVlZGExZjBhOSIsImVtYWlsIjoibHVjYXNmZXJuYW5kZXphcmFnb25AZ21haWwuY29tIiwiaWF0IjoxNjQ1NDM2MTQ4LCJleHAiOjE2NDU0MzYyMDh9.HmqhMQIHMbTvCM-Ay46xTJAkazz84Ft8198t8AtwsuM';
 const ANY_EXPIRES_IN = 80;
@@ -57,124 +55,129 @@ afterEach(async () => {
   localStorage.removeItem(USER_TOKEN);
 });
 
-test('login happy case', async () => {
-  // Given
+describe('login', () => {
+  test('success - happy case', async () => {
+    // Given
+    vi.mocked(createApiClient, { partial: true }).mockReturnValue({
+      token: vi.fn().mockResolvedValue(ANY_TOKEN_RESPONSE)
+    });
 
-  const apiClient = <ApiClient>{};
-  apiClient.token = vi.fn().mockResolvedValue(ANY_TOKEN_RESPONSE);
-  mockedCreateApiClient.mockReturnValue(apiClient);
-
-  // When
-  await login(ANY_USERNAME, ANY_PASSWORD);
-
-  // Then
-  expect(isUserActive()).toBeTruthy();
-  expect(setTimeout).toHaveBeenCalledTimes(2);
-  expect(getCurrentUser()).toEqual(ANY_USER);
-});
-
-test('login - success and then logs out when token expires', async () => {
-  // Given
-  const apiClient = <ApiClient>{};
-  apiClient.token = vi.fn().mockResolvedValue(ANY_TOKEN_RESPONSE);
-  apiClient.logout = vi.fn().mockResolvedValue('');
-  mockedCreateApiClient.mockReturnValue(apiClient);
-
-  // When
-  await login(ANY_USERNAME, ANY_PASSWORD);
-
-  // Then
-  expect(isUserActive()).toBeTruthy();
-  expect(setTimeoutSpy).toHaveBeenCalledTimes(2);
-  expect(getCurrentUser()).toEqual(ANY_USER);
-
-  // When (set the token to expire)
-  vi.advanceTimersByTime(ANY_EXPIRES_IN * 1000);
-
-  setLogoutIfExpiredHandler();
-
-  // Then
-  expect(isUserActive()).toBeFalsy();
-});
-
-test('login failed - unauthorized', async () => {
-  // Given
-  const apiClient = <ApiClient>{};
-  apiClient.token = vi.fn().mockRejectedValue(new Unauthorized());
-  apiClient.logout = vi.fn().mockResolvedValue('');
-  mockedCreateApiClient.mockReturnValue(apiClient);
-
-  // When
-  try {
+    // When
     await login(ANY_USERNAME, ANY_PASSWORD);
-  } catch (e) {
-    expect(e).toBeInstanceOf(WrongCredentialsException);
-  }
 
-  // Then
-  expect(isUserActive()).toBeFalsy();
-  expect(setTimeoutSpy).toHaveBeenCalledTimes(0);
-});
+    // Then
+    expect(isUserActive()).toBeTruthy();
+    expect(setTimeout).toHaveBeenCalledTimes(2);
+    expect(getCurrentUser()).toEqual(ANY_USER);
+  });
 
-test('login failed - generic error', async () => {
-  // Given
-  const apiClient = <ApiClient>{};
-  apiClient.token = vi.fn().mockRejectedValue(new GenericError(500, 'err'));
-  apiClient.logout = vi.fn().mockResolvedValue('');
-  mockedCreateApiClient.mockReturnValue(apiClient);
+  test('success - then logs out when token expires', async () => {
+    // Given
+    vi.mocked(createApiClient, { partial: true }).mockReturnValue({
+      token: vi.fn().mockResolvedValue(ANY_TOKEN_RESPONSE),
+      logout: vi.fn().mockResolvedValue('')
+    });
 
-  // When
-  try {
+    // When
     await login(ANY_USERNAME, ANY_PASSWORD);
-  } catch (e) {
-    expect(e).toBeInstanceOf(Error);
-  }
 
-  // Then
-  expect(isUserActive()).toBeFalsy();
-  expect(setTimeoutSpy).toHaveBeenCalledTimes(0);
+    // Then
+    expect(isUserActive()).toBeTruthy();
+    expect(setTimeoutSpy).toHaveBeenCalledTimes(2);
+    expect(getCurrentUser()).toEqual(ANY_USER);
+
+    // When (set the token to expire)
+    vi.advanceTimersByTime(ANY_EXPIRES_IN * 1000);
+
+    setLogoutIfExpiredHandler();
+
+    // Then
+    expect(isUserActive()).toBeFalsy();
+  });
+
+  test('failed - unauthorized', async () => {
+    // Given
+    vi.mocked(createApiClient, { partial: true }).mockReturnValue({
+      token: vi.fn().mockRejectedValue(new Unauthorized()),
+      logout: vi.fn().mockResolvedValue('')
+    });
+
+    // When
+    try {
+      await login(ANY_USERNAME, ANY_PASSWORD);
+    } catch (e) {
+      expect(e).toBeInstanceOf(WrongCredentialsException);
+    }
+
+    // Then
+    expect(isUserActive()).toBeFalsy();
+    expect(setTimeoutSpy).toHaveBeenCalledTimes(0);
+  });
+
+  test('failed - generic error', async () => {
+    // Given
+    vi.mocked(createApiClient, { partial: true }).mockReturnValue({
+      token: vi.fn().mockRejectedValue(new GenericError(500, 'err')),
+      logout: vi.fn().mockResolvedValue('')
+    });
+
+    // When
+    try {
+      await login(ANY_USERNAME, ANY_PASSWORD);
+    } catch (e) {
+      expect(e).toBeInstanceOf(Error);
+    }
+
+    // Then
+    expect(isUserActive()).toBeFalsy();
+    expect(setTimeoutSpy).toHaveBeenCalledTimes(0);
+  });
+
+  test('clear timeout', async () => {
+    // Given
+    const setClearTimeout = vi.spyOn(global, 'clearTimeout');
+
+    vi.mocked(createApiClient, { partial: true }).mockReturnValue({
+      logout: vi.fn().mockResolvedValue('')
+    });
+
+    setUserToken();
+
+    // When
+    await logout();
+
+    // Then
+    expect(isUserActive()).toBeFalsy();
+    expect(setClearTimeout).toHaveBeenCalledTimes(1);
+  });
 });
 
-test('logout happy case', async () => {
-  // Given
-  const setClearTimeout = vi.spyOn(global, 'clearTimeout');
-  const apiClient = <ApiClient>{};
-  apiClient.logout = vi.fn().mockResolvedValue('');
-  mockedCreateApiClient.mockReturnValue(apiClient);
-  setUserToken();
+describe('token', () => {
+  test('init when token exists but it is expired', () => {
+    // Given
+    setUserToken();
+    dateMakesTokenExpired();
 
-  // When
-  await logout();
+    // Then
+    expect(isUserActive()).toBeFalsy();
+    expect(setTimeoutSpy).toHaveBeenCalledTimes(1);
+  });
 
-  // Then
-  expect(isUserActive()).toBeFalsy();
-  expect(setClearTimeout).toHaveBeenCalledTimes(1);
-});
+  test('getAccessToken without token set', () => {
+    // When
+    const actual = getCurrentUser();
 
-test('init when token exists but it is expired', () => {
-  // Given
-  setUserToken();
-  dateMakesTokenExpired();
+    // Then
+    expect(actual).toBeUndefined();
+  });
 
-  // Then
-  expect(isUserActive()).toBeFalsy();
-  expect(setTimeoutSpy).toHaveBeenCalledTimes(1);
-});
+  test('isTokenActive on non existing token', () => {
+    // When
+    const actual = isUserActive();
 
-test('getAccessToken without token set', () => {
-  // When
-  const actual = getCurrentUser();
-
-  // Then
-  expect(actual).toBeUndefined();
-});
-
-test('isTokenActive on non existing token', () => {
-  // When
-  const actual = isUserActive();
-
-  // Then
-  expect(actual).toBeFalsy();
+    // Then
+    expect(actual).toBeFalsy();
+  });
 });
 
 describe.each([
