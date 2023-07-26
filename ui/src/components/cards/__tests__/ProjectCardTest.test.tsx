@@ -27,7 +27,6 @@ const userLogggedMock: User = {
 const mockFeatured = 'FEATURED';
 
 describe('ProjectCard', () => {
-
   test('renders title', () => {
     const { getByText } = render(
       <ProjectCard
@@ -39,7 +38,7 @@ describe('ProjectCard', () => {
     );
     expect(getByText(projectMock.title)).toBeInTheDocument();
   });
-  
+
   test('renders description', () => {
     const { getByText } = render(
       <ProjectCard
@@ -51,7 +50,7 @@ describe('ProjectCard', () => {
     );
     expect(getByText(projectMock.description)).toBeInTheDocument();
   });
-  
+
   test('renders version', () => {
     const { getByText } = render(
       <ProjectCard
@@ -63,7 +62,7 @@ describe('ProjectCard', () => {
     );
     expect(getByText(projectMock.version)).toBeInTheDocument();
   });
-  
+
   test('renders', () => {
     const { getByText } = render(
       <ProjectCard
@@ -76,7 +75,7 @@ describe('ProjectCard', () => {
     );
     expect(getByText(mockFeatured)).toBeInTheDocument();
   });
-  
+
   test('Featured empty', () => {
     render(
       <ProjectCard
@@ -88,7 +87,7 @@ describe('ProjectCard', () => {
     );
     expect(screen.getByTestId('caption').textContent).toBe('');
   });
-  
+
   test('User logged', () => {
     render(
       <ProjectCard
@@ -100,7 +99,7 @@ describe('ProjectCard', () => {
     );
     expect(screen.getByTestId('menuButton')).toBeInTheDocument();
   });
-  
+
   test('Caption empty', () => {
     render(
       <ProjectCard
@@ -112,7 +111,7 @@ describe('ProjectCard', () => {
     );
     expect(screen.getByTestId('caption').textContent).toBe('');
   });
-  
+
   test('External link', () => {
     render(
       <ProjectCard
@@ -124,7 +123,4 @@ describe('ProjectCard', () => {
     );
     expect(screen.getByRole('link')).toHaveAttribute('href', projectMock.link);
   });
-  
-
 });
-

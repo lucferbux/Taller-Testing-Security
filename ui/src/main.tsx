@@ -13,9 +13,9 @@ root.render(
   <React.StrictMode>
     <HelmetProvider>
       <AuthProvider>
-          <ProjectProvider>
-            <App />
-          </ProjectProvider>
+        <ProjectProvider>
+          <App />
+        </ProjectProvider>
       </AuthProvider>
     </HelmetProvider>
   </React.StrictMode>

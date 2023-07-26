@@ -20,26 +20,24 @@ describe('AboutMeCard', () => {
     const { getByText } = render(<AboutMeCard aboutMe={aboutMeMock} />);
     expect(getByText(aboutMeMock.name)).toBeInTheDocument();
   });
-  
+
   test('renders nationality', () => {
     const { getByText } = render(<AboutMeCard aboutMe={aboutMeMock} />);
     expect(getByText(aboutMeMock.nationality || '')).toBeInTheDocument();
   });
-  
+
   test('renders job', () => {
     const { getByText } = render(<AboutMeCard aboutMe={aboutMeMock} />);
     expect(getByText(aboutMeMock.job || '')).toBeInTheDocument();
   });
-  
+
   test('renders link', () => {
     const { getByText } = render(<AboutMeCard aboutMe={aboutMeMock} />);
     expect(getByText(aboutMeMock.github || '')).toBeInTheDocument();
   });
-  
+
   test('image is render', () => {
     render(<AboutMeCard aboutMe={aboutMeMock} />);
     expect(screen.getByTestId('aboutImg')).toBeInTheDocument();
   });
 });
-
-

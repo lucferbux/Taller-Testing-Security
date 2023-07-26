@@ -1,8 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Loader from './Loader';
 
-
-
 const meta: Meta = {
   title: 'ThreePoints/Loader',
   component: Loader,
@@ -12,12 +10,12 @@ const meta: Meta = {
     viewMode: 'info'
   },
   decorators: [
-    (Loader) => (
+    (LoaderComponent) => (
       <div style={{ margin: '10em' }}>
-        <Loader />
+        <LoaderComponent />
       </div>
-    ),
-  ],
+    )
+  ]
 } satisfies Meta<typeof Loader>;
 
 export default meta;

@@ -31,7 +31,6 @@ export function ProjectProvider({ children }: Props) {
     setProject(undefined);
   }, [setProject]);
 
-
   return (
     <ProjectContext.Provider value={{ project, addProject, removeProject }}>
       {children}

@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Header from './header';
 import { BrowserRouter } from 'react-router-dom';
 import { User } from '../../model/user';
-import { AuthProvider } from '../../context/AuthContext';
 
 const userLoggged: User = {
   active: true,
@@ -19,10 +18,10 @@ const meta: Meta = {
     viewMode: 'info'
   },
   decorators: [
-    (Header) => (
-        <BrowserRouter>
-          <Header />
-        </BrowserRouter>
+    (HeaderComponent) => (
+      <BrowserRouter>
+        <HeaderComponent />
+      </BrowserRouter>
     )
   ]
 } satisfies Meta<typeof Header>;

@@ -1,4 +1,4 @@
-import ApiClient, { GenericError, TokenResponse, Unauthorized } from '../api/api-client';
+import { GenericError, TokenResponse, Unauthorized } from '../api/api-client';
 import {
   login,
   logout,
