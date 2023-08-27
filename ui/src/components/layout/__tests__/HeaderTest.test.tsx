@@ -25,7 +25,7 @@ vi.mock('react-i18next', () => ({
 test('check exact three links', () => {
   render(
     <MemoryRouter>
-      <Header />
+      <Header user={undefined} logout={() => {}} />
     </MemoryRouter>
   );
   expect(screen.getAllByRole('link').length).toEqual(3);
