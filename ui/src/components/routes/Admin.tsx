@@ -136,8 +136,9 @@ const Admin = () => {
             type="text"
             placeholder="image"
             value={evilInput}
-            onChange={() => {
+            onChange={(input) => {
               console.log('evil');
+              setEvilInput(input.target.value);
             }}
           />
           <EvilDiv
