@@ -27,6 +27,8 @@ const Admin = () => {
 
   const [projectInput, setProjectInput] = useState<Partial<Project>>(project || emptyProjectInput);
 
+  const [evilInput, setEvilInput] = useState('');
+
   const readyToSubmit =
     projectInput.title !== '' &&
     projectInput.description !== '' &&
@@ -126,6 +128,24 @@ const Admin = () => {
             />
           </ButtonWrapper>
         </LoginPannel>
+      </ContentWrapper>
+      <ContentWrapper>
+        <EvilInput>
+          <LoginForm
+            name="img"
+            type="text"
+            placeholder="image"
+            value={evilInput}
+            onChange={() => {
+              console.log('evil');
+            }}
+          />
+          <EvilDiv
+            dangerouslySetInnerHTML={{
+              __html: `<img  style="width: 200px;" src="${evilInput}"/>`
+            }}
+          />
+        </EvilInput>
       </ContentWrapper>
     </Wrapper>
   );
@@ -232,6 +252,31 @@ const ButtonForm = styled.input`
   @media (prefers-color-scheme: dark) {
     background-color: ${themes.dark.primary};
   }
+`;
+
+const EvilInput = styled.div`
+  padding: 20px 40px;
+  width: 400px;
+  ${themes.light.card};
+  border-radius: 8px;
+
+  display: grid;
+  row-gap: 16px;
+  grid-template-rows: auto;
+
+  @media (prefers-color-scheme: dark) {
+    ${themes.dark.card};
+  }
+
+  @media (max-width: 500px) {
+    width: auto;
+    margin: 0px 20px;
+    padding: 20px;
+  }
+`;
+
+const EvilDiv = styled.div`
+  padding: 20px 40px;
 `;
 
 const ButtonCancel = styled(ButtonForm)`
