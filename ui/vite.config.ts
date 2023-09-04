@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import type { UserConfig as VitestUserConfigInterface } from 'vitest/config';
-import react from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react';
 
 const vitestConfig: VitestUserConfigInterface = {
   test: {
@@ -10,6 +10,13 @@ const vitestConfig: VitestUserConfigInterface = {
     },
     setupFiles: ['src/setupTest.ts'],
     environment: 'jsdom',
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/cypress/**',
+      '**/.{idea,git,cache,output,temp}/**',
+      './src/__tests__/e2e/**',
+    ]
   }
 };
 
@@ -24,7 +31,7 @@ export default defineConfig({
       // string shorthand: http://localhost:5173/auth -> http://localhost:4000/auth
       '/auth': 'http://localhost:4000',
       // string shorthand: http://localhost:5173/v1 -> http://localhost:4000/v1
-      '/v1': 'http://localhost:4000',
-    },
-  },
+      '/v1': 'http://localhost:4000'
+    }
+  }
 });
