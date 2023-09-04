@@ -16,7 +16,12 @@
     "prettier",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["react", "react-hooks", "@typescript-eslint", "import"],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint",
+    "import"
+  ],
   "env": {
     "browser": true,
     "es6": true
@@ -39,7 +44,8 @@
           "**/*.stories.*",
           "**/.storybook/**/*.*",
           "**/.jest-canvas-mock/**/*.*",
-          "**/*.d.ts"
+          "**/*.d.ts",
+          "**/*.spec.*"
         ],
         "peerDependencies": true
       }

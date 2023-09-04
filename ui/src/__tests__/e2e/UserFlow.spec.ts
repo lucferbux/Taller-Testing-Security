@@ -1,11 +1,4 @@
-import { test, expect, Page } from '@playwright/test';
-
-const cleanTestProject = async (page: Page) => {
-  await page.goto('/');
-};
-
-test.beforeEach(async ({ page }) => await cleanTestProject(page));
-test.afterEach(async ({ page }) => await cleanTestProject(page));
+import { test, expect } from '@playwright/test';
 
 // Test Landing Page and Nav Bar
 test('Landing page', async ({ page }) => {
