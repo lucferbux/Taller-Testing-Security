@@ -8,6 +8,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:e2e": "playwright test ./src/__tests__/e2e",
+    "test:e2e:debug": "playwright test ./src/__tests__/e2e --debug",
     "coverage": "vitest run --coverage",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
