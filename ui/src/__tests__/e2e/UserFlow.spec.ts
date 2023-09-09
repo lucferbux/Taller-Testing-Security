@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 
 // Test Landing Page and Nav Bar
 test('Landing page', async ({ page }) => {
+  await page.goto('/');
   // Check that the page title is correct
   await expect(page).toHaveTitle('Portfolio');
   // Check that the page header is correct
