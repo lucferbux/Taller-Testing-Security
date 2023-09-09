@@ -34,7 +34,7 @@ const test: IConfig = {
   port: process.env.PORT || 3000,
   database: {
     MONGODB_URI: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/',
-    MONGODB_DB_MAIN: `${process.env.MONGODB_DB_MAIN || 'example_db'}_testing`
+    MONGODB_DB_MAIN: process.env.MONGODB_DB_MAIN || 'example_db'
   },
   secret: process.env.SECRET || 'secret'
 };
