@@ -16,7 +16,7 @@ export async function findAll(req: Request, res: Response, next: NextFunction): 
 
     res.status(200).json(aboutMeArray.sort((a, b) => a.timestamp - b.timestamp));
   } catch (error) {
-    next(new HttpError(error.message.status, error.message));
+    next(error instanceof HttpError ? error : new HttpError(error.status, error.message));
   }
 }
 
@@ -33,7 +33,7 @@ export async function findOne(req: Request, res: Response, next: NextFunction): 
 
     res.status(200).json(aboutMe);
   } catch (error) {
-    next(new HttpError(error.message.status, error.message));
+    next(error instanceof HttpError ? error : new HttpError(error.status, error.message));
   }
 }
 
@@ -50,7 +50,7 @@ export async function create(req: Request, res: Response, next: NextFunction): P
 
     res.status(201).json(aboutMe);
   } catch (error) {
-    next(new HttpError(error.message.status, error.message));
+    next(error instanceof HttpError ? error : new HttpError(error.status, error.message));
   }
 }
 
@@ -69,7 +69,7 @@ export async function update(req: Request, res: Response, next: NextFunction): P
 
     res.status(201).json(aboutMe);
   } catch (error) {
-    next(new HttpError(error.message.status, error.message));
+    next(error instanceof HttpError ? error : new HttpError(error.status, error.message));
   }
 }
 
@@ -86,6 +86,6 @@ export async function remove(req: Request, res: Response, next: NextFunction): P
 
     res.status(200).json(aboutMe);
   } catch (error) {
-    next(new HttpError(error.message.status, error.message));
+    next(error instanceof HttpError ? error : new HttpError(error.status, error.message));
   }
 }

@@ -1,8 +1,9 @@
 import Joi from 'joi';
+import { Types } from 'mongoose';
 import ProjectModel, { IProjectsModel } from './model';
 import ProjectsValidation from './validation';
 import { IProjectsService } from './interface';
-import { Types } from 'mongoose';
+import { HttpError } from '@/config/error';
 
 /**
  * @export
@@ -35,10 +36,10 @@ const ProjectsService: IProjectsService = {
       });
 
       if (validate.error) {
-        throw new Error(validate.error.message);
+        throw new HttpError(400, validate.error.message);
       }
 
-      return await ProjectModel.findOne(
+      const project = await ProjectModel.findOne(
         {
           _id: Types.ObjectId(id)
         },
@@ -46,8 +47,17 @@ const ProjectsService: IProjectsService = {
           password: 0
         }
       );
+
+      if (!project) {
+        throw new HttpError(404, 'Project not found');
+      }
+
+      return project;
     } catch (error) {
-      throw new Error(error.message);
+      if (error instanceof HttpError) {
+        throw error;
+      }
+      throw new HttpError(500, error.message);
     }
   },
 
@@ -61,14 +71,17 @@ const ProjectsService: IProjectsService = {
       const validate: Joi.ValidationResult<IProjectsModel> = ProjectsValidation.createProject(body);
 
       if (validate.error) {
-        throw new Error(validate.error.message);
+        throw new HttpError(400, validate.error.message);
       }
 
       const project: IProjectsModel = await ProjectModel.create(body);
 
       return project;
     } catch (error) {
-      throw new Error(error.message);
+      if (error instanceof HttpError) {
+        throw error;
+      }
+      throw new HttpError(500, error.message);
     }
   },
 
@@ -86,16 +99,23 @@ const ProjectsService: IProjectsService = {
       });
 
       if (validate.error) {
-        throw new Error(validate.error.message);
+        throw new HttpError(400, validate.error.message);
       }
 
       const project: IProjectsModel = await ProjectModel.findOneAndRemove({
         _id: Types.ObjectId(id)
       });
 
+      if (!project) {
+        throw new HttpError(404, 'Project not found');
+      }
+
       return project;
     } catch (error) {
-      throw new Error(error.message);
+      if (error instanceof HttpError) {
+        throw error;
+      }
+      throw new HttpError(500, error.message);
     }
   }
 };

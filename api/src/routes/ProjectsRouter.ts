@@ -8,6 +8,7 @@ import * as jwtConfig from '@/config/middleware/jwtAuth';
 const router: Router = Router();
 
 router.get('/', ProjectsComponent.findAll);
+router.get('/:id', ProjectsComponent.findOne);
 
 router.post('/', jwtConfig.isAuthenticated, ProjectsComponent.create);
 
